@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="str_start_service">Start Foreground Service</string>
+    <string name="str_default_channel">default_channel</string>
+    <string name="str_channel_name">My Notifications</string>
+    <string name="str_channel_describtion">Channel description</string>
+    <string name="str_content_title">Foreground Service</string>
+    <string name="str_content_info">Content Info</string>
+    <string name="str_content_text">This is the content text </string>
+</resources>
