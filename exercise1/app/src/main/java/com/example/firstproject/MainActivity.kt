@@ -3,6 +3,7 @@ package com.example.firstproject
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.example.firstproject.service.MyService
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,5 +29,16 @@ class MainActivity : AppCompatActivity() {
     private fun startMusicService() {
         val intent = Intent(MainActivity@this,MyService::class.java)
         startService(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val request_code = intent?.getIntExtra(MyService.KEY_REQUEST_CODE,MyService.REQUEST_CODE_NORMAL)
+        when(request_code){
+            MyService.REQUEST_CODE_PREVIOUSE_SONG -> Toast.makeText(this,resources.getString(R.string.str_notify_previouse),Toast.LENGTH_SHORT).show()
+            MyService.REQUEST_CODE_PAUSE_SONG -> Toast.makeText(this,resources.getString(R.string.str_notify_start),Toast.LENGTH_SHORT).show()
+            MyService.REQUEST_CODE_NEXT_SONG -> Toast.makeText(this,resources.getString(R.string.str_notify_next),Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

@@ -7,4 +7,7 @@
     <string name="str_content_title">Foreground Service</string>
     <string name="str_content_info">Content Info</string>
     <string name="str_content_text">This is the content text </string>
+    <string name="str_notify_previouse">上一曲 </string>
+    <string name="str_notify_start">暂停 </string>
+    <string name="str_notify_next">下一曲 </string>
 </resources>
