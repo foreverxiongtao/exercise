@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">exercise2</string>
+    <string name="str_start_service">点击下载</string>
+    <string name="str_download_completed">download is completed...</string>
+    <string name="str_lower_version">手机版本过低，请升级...</string>
+    <string name="str_cancel_download">取消下载</string>
+</resources>
