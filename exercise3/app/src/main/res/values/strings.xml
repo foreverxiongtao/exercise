@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Meeting</string>
+    <string name="str_tab_main">主页</string>
+    <string name="str_tab_history">会议历史</string>
+    <string name="str_tab_management">会议管理</string>
+    <string name="str_person_add">人员录入</string>
+    <string name="str_person_num">编号</string>
+    <string name="str_num_empty">编号不能为空</string>
+    <string name="str_name_empty">名称不能为空</string>
+    <string name="str_person_name">姓名</string>
+    <string name="str_person_save">保存</string>
+</resources>
