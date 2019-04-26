@@ -1,6 +1,5 @@
 package com.example.meeting;
 
-import android.app.Application;
 import com.example.library.base.BaseApplication;
 import com.example.library.utils.CoreUtils;
 

@@ -40,6 +40,7 @@ ext {
     // App dependencies
     supportLibraryVersion = '27.1.1'
     constraintLayout = '1.1.3'
+    roomVersion = '1.1.1'
     googleAnalytics = '16.0.4'
     guavaVersion = '18.0'
     junitVersion = '4.12'
