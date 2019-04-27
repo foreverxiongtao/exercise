@@ -25,4 +25,5 @@
     <string name="string_today">今天</string>
     <string name="str_yesterday">昨天</string>
     <string name="string_tomorrow">明天</string>
+    <string name="str_no_host">无</string>
 </resources>

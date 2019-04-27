@@ -31,7 +31,6 @@
                     android:textColor="@color/text_222"
                     android:gravity="left"
                     android:lines="1"
-                    android:visibility="gone"
                     android:ellipsize="end"/>
 
 
@@ -48,6 +47,7 @@
                     android:gravity="left"
                     android:lines="1"
                     android:ellipsize="end"
+                    android:text="@string/str_no_host"
                     tools:text="aaaaaaaaaa"/>
 
             <android.support.v7.widget.AppCompatTextView
@@ -94,7 +94,6 @@
                     android:textColor="@color/text_222"
                     android:gravity="left"
                     android:lines="1"
-                    android:visibility="gone"
                     android:ellipsize="end"/>
 
 
@@ -110,8 +109,8 @@
                     android:textColor="@color/text_222"
                     android:gravity="left"
                     android:lines="1"
-                    android:ellipsize="end"
-                    tools:text="aaaaaaaaaa"/>
+                    android:text="@string/str_no_host"
+                    android:ellipsize="end"/>
 
             <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -156,7 +155,6 @@
                     android:textColor="@color/text_222"
                     android:gravity="left"
                     android:lines="1"
-                    android:visibility="gone"
                     android:ellipsize="end"/>
 
 
@@ -173,7 +171,7 @@
                     android:gravity="left"
                     android:lines="1"
                     android:ellipsize="end"
-                    tools:text="aaaaaaaaaa"/>
+                    android:text="@string/str_no_host"/>
 
             <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"

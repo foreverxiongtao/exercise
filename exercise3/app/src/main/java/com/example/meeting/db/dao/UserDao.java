@@ -87,4 +87,13 @@ public interface UserDao {
     void resetSkipStatus(int skipStauts, int startUid, int endUid);
 
 
+    /**
+     * 获取能满足主持会议的最近一条用户
+     *
+     * @return
+     */
+    @Query("select * from t_users where is_delete =:deleteStatus and uid>:uid and is_skip =:notSkip order by `no` limit 1 ")
+    User getAvaiableUserByUid(int deleteStatus, int uid, int notSkip);
+
+
 }

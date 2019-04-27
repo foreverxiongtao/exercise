@@ -18,6 +18,7 @@ public class GlobalConstant {
     public static final String PRE_USER_NUMBER = "xm";
     public static final int VALUE_NUMBER_LENGTH = 6;
     public static final int VALUE_PAGING_DEFAULT = 10;
+    public static final int VALUE_YESTERDAY_AND_TODAY = 2;
 
     public static final int VALUE_OPERATE_DELETE = 0;
     public static final int VALUE_OPERATE_SKIP = 1;
@@ -25,6 +26,10 @@ public class GlobalConstant {
 
     public static final int VALUE_IS_SKIP = 1;
     public static final int VALUE_IS_NOT_SKIP = 2;
+    public static final int VALUE_INDEX_TODAY = 0;
+    public static final int VALUE_INDEX_YESTERDAY = 1;
+    public static final int VALUE_USER_ID_DEFAULT = 0;
+
 
 
     public static String getNumStr(int number) {

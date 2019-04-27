@@ -35,7 +35,7 @@ public interface MeetingHistoryDao {
      * @param defaultPaging
      * @return
      */
-    @Query("select * from t_meeting_history as t inner join t_users as u on t.u_id = u.uid order by `create_time` desc limit:offset,:defaultPaging")
+    @Query("select * from t_meeting_history as t inner join t_users as u on t.u_id = u.uid order by t.host_time desc limit:offset,:defaultPaging")
     Maybe<List<MeetingHistory>> getMeetingHistory(int offset, int defaultPaging);
 
 
@@ -45,4 +45,13 @@ public interface MeetingHistoryDao {
      */
     @Query("select count(`id`) from t_meeting_history")
     Maybe<Integer> getHistoryTotalCount();
+
+
+    /***
+     * 获取昨天和今天会议的记录
+     * @param offset
+     * @return
+     */
+    @Query("select * from t_meeting_history as t inner join t_users as u on t.u_id = u.uid order by t.host_time desc limit:offset")
+    Maybe<List<MeetingHistory>> getYesterdayAndTodayMeeting(int offset);
 }

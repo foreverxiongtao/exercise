@@ -26,7 +26,6 @@ import io.reactivex.schedulers.Schedulers;
 public class MeetingManager {
     private static final String TAG = MeetingManager.class.getSimpleName();
     private static MeetingManager mMeetingManager;
-    private static final int VALUE_USER_ID_DEFAULT = 0;
     private RxManager mManager;
 
     private MeetingManager() {
@@ -70,7 +69,7 @@ public class MeetingManager {
         //获取上一次主持会议的用户
         final int lastMeetingHostId = SPDataManager.getLastMeetingHostId();
         if (lastMeetingHostId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT) { //第一次会议
-            Maybe<User> firstUser = AppDatabase.getInstance().userDao().getAvaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, VALUE_USER_ID_DEFAULT, GlobalConstant.VALUE_IS_NOT_SKIP);
+            Maybe<User> firstUser = AppDatabase.getInstance().userDao().getAvaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, GlobalConstant.VALUE_USER_ID_DEFAULT, GlobalConstant.VALUE_IS_NOT_SKIP);
             mManager.register(firstUser.compose(RxHelper.<User>rxSchedulerHelper()).observeOn(Schedulers.io()).map(new Function<User, MeetingHistory>() {
                 @Override
                 public MeetingHistory apply(User user) {
@@ -144,7 +143,7 @@ public class MeetingManager {
         RxHelper.createObservable(Void.class).compose(RxHelper.<Class<Void>>rxSchedulerHelperIO()).subscribe(new Consumer<Class<Void>>() {
             @Override
             public void accept(Class<Void> voidClass) throws Exception {
-                AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP,lastMeetingHostId);
+                AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId);
                 SPDataManager.saveLastMeetingHostId(SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT); //还原上一次主次会议的用户标示
                 publishMeeting();  //开启新一轮的会议主持
             }
