@@ -65,8 +65,8 @@ public interface UserDao {
      *
      * @return
      */
-    @Query("update t_users set  is_skip = :skipStauts ")
-    void resetSkipStatus(int skipStauts);
+    @Query("update t_users set  is_skip = :skipStauts where uid>:uid")
+    void resetSkipStatus(int skipStauts, int uid);
 
 
     /**

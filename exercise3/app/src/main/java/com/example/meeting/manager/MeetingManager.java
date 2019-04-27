@@ -130,7 +130,7 @@ public class MeetingManager {
                 public void run() throws Exception {
                     LogUtils.e(TAG, "***************************run");
                     //2.开启新一轮的值日主持
-                    resetHostMeeting();
+                    resetHostMeeting(lastMeetingHostId);
                 }
             }));
         }
@@ -138,11 +138,13 @@ public class MeetingManager {
 
     /***
      * 重置会议发布状态
+     * @param lastMeetingHostId
      */
-    private void resetHostMeeting() {
+    private void resetHostMeeting(final int lastMeetingHostId) {
         RxHelper.createObservable(Void.class).compose(RxHelper.<Class<Void>>rxSchedulerHelperIO()).subscribe(new Consumer<Class<Void>>() {
             @Override
             public void accept(Class<Void> voidClass) throws Exception {
+                AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP,lastMeetingHostId);
                 SPDataManager.saveLastMeetingHostId(SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT); //还原上一次主次会议的用户标示
                 publishMeeting();  //开启新一轮的会议主持
             }
