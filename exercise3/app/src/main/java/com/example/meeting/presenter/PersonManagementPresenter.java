@@ -74,6 +74,24 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
         }));
     }
 
+    @Override
+    public void refreshUserTotalCount() {
+        if (mIModel == null || mIView == null) {
+            return;
+        }
+        mRxManager.register(mIModel.getPersonTotalCount().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer totalPage) throws Exception {
+                mTotalPage = totalPage / GlobalConstant.VALUE_PAGING_DEFAULT + 1;  //获取总共的分页
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                mIView.refreshUserListFailure(throwable.getMessage());
+            }
+        }));
+    }
+
 
     /**
      * 分页加载人员列表
@@ -83,28 +101,34 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
         if (mIModel == null || mIView == null) {
             return;
         }
-        mRxManager.register(mIModel.getUsers(mCurrentPage).subscribe(new Consumer<List<User>>() {
-            @Override
-            public void accept(List<User> list) throws Exception {
-                if (list != null && !list.isEmpty()) {
-                    mCurrentPage++;
-                    mIView.moreUserListSuccess(list);
-                } else {
-                    mIView.getUserListrEmpty();
+        if (mTotalPage >= mCurrentPage && !isLoading) {
+            isLoading = true;
+            mRxManager.register(mIModel.getUsers(mCurrentPage).subscribe(new Consumer<List<User>>() {
+                @Override
+                public void accept(List<User> list) throws Exception {
+                    isLoading = false;
+                    if (list != null && !list.isEmpty()) {
+                        mCurrentPage++;
+                        mIView.moreUserListSuccess(list);
+                    } else {
+                        mIView.showNoMoreData();
+                    }
                 }
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                mIView.moreUserListFailure(throwable.getMessage());
-            }
-        }, new Action() {
-            @Override
-            public void run() throws Exception {
-                mIView.getUserListrEmpty();
-                LogUtils.d("*******************");
-            }
-        }));
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
+                    isLoading = false;
+                    mIView.moreUserListFailure(throwable.getMessage());
+                }
+            }, new Action() {
+                @Override
+                public void run() throws Exception {
+                    isLoading = false;
+                    mIView.showNoMoreData();
+                    LogUtils.d("*******************");
+                }
+            }));
+        }
     }
 
 
@@ -118,7 +142,7 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
         if (mIModel == null || mIView == null) {
             return;
         }
-        user.setIsDelete(GlobalConstant.VALUE_IS_DELETE);
+        user.setIsDelete(GlobalConstant.VALUE_IS_DELETE);  //设置当前的用户删除状态
         mRxManager.register(mIModel.deletePerson(user).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer row) throws Exception {

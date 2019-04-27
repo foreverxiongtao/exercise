@@ -19,6 +19,7 @@ public interface UserDao {
 
     /**
      * 获取所有的用户(未删除)
+     *
      * @param deleteStatus
      * @param offset
      * @param defaultPaging
@@ -26,6 +27,10 @@ public interface UserDao {
      */
     @Query("select * from t_users where is_delete =:deleteStatus order by `no` limit:offset,:defaultPaging")
     Maybe<List<User>> getAllUsers(int deleteStatus, int offset, int defaultPaging);
+
+    @Query("select count(`no`) from t_users where is_delete=:deleteStatus")
+    Maybe<Integer> getPersonTotalCount(int deleteStatus);
+
 
     /***
      * 插入用户
@@ -37,6 +42,7 @@ public interface UserDao {
 
     /**
      * 获取当前最新的用户
+     *
      * @return
      */
     @Query("select * from t_users  order by `no` desc limit 1 ")

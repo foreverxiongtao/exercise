@@ -22,9 +22,12 @@ public interface AbPersonManagementContract {
 
         public abstract void refreshUserList();
 
+        public abstract void refreshUserTotalCount();
+
         public abstract void loadMoreUserList();
 
         public abstract void deletePerson(User user, int position);
+
     }
 
     interface IPersonManagementModel extends IBaseModel {
@@ -32,6 +35,8 @@ public interface AbPersonManagementContract {
         Maybe<List<User>> getUsers(int page);
 
         Observable<Integer> deletePerson(User user);
+
+        Maybe<Integer> getPersonTotalCount();
     }
 
     interface IPersonalManagementView extends IBaseView {
@@ -44,6 +49,11 @@ public interface AbPersonManagementContract {
         void moreUserListSuccess(List<User> user);
 
         void moreUserListFailure(String message);
+
+        /**
+         * 显示没有更多数据
+         */
+        void showNoMoreData();
 
         void getUserListrEmpty();
 

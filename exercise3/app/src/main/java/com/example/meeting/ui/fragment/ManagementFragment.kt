@@ -37,6 +37,7 @@ class ManagementFragment :
     BaseMVPCompatFragment<AbPersonManagementContract.AbPersonManagementPresenter, AbPersonManagementContract.IPersonManagementModel>(),
     View.OnClickListener, AbPersonManagementContract.IPersonalManagementView, SwipeRefreshLayout.OnRefreshListener,
     BaseQuickAdapter.RequestLoadMoreListener {
+
     override fun moreUserListFailure(message: String?) {
     }
 
@@ -143,6 +144,7 @@ class ManagementFragment :
     override fun initData() {
         EventBus.getDefault().register(this)
         super.initData()
+        mPresenter.refreshUserTotalCount()
         mPresenter.refreshUserList()
     }
 
@@ -167,5 +169,11 @@ class ManagementFragment :
     override fun onLoadMoreRequested() {
         mPresenter.loadMoreUserList()
     }
+
+    override fun showNoMoreData() {
+        srl_management_refresh.isRefreshing = false
+        mManagementAdapter!!.loadMoreEnd(false)
+    }
+
 
 }

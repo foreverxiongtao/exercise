@@ -23,7 +23,7 @@ import java.util.List;
 public class PersonManagementModel extends BaseModel implements AbPersonManagementContract.IPersonManagementModel {
     @Override
     public Maybe<List<User>> getUsers(int page) {
-        return AppDatabase.getInstance().userDao().getAllUsers(GlobalConstant.VALUE_IS_NOT_DELETE,page * GlobalConstant.VALUE_PAGING_DEFAULT - 1, GlobalConstant.VALUE_PAGING_DEFAULT).compose(RxHelper.<List<User>>rxSchedulerHelper());
+        return AppDatabase.getInstance().userDao().getAllUsers(GlobalConstant.VALUE_IS_NOT_DELETE, page * GlobalConstant.VALUE_PAGING_DEFAULT - 1, GlobalConstant.VALUE_PAGING_DEFAULT).compose(RxHelper.<List<User>>rxSchedulerHelper());
     }
 
     @Override
@@ -40,5 +40,10 @@ public class PersonManagementModel extends BaseModel implements AbPersonManageme
             }
         }).compose(RxHelper.<Integer>rxObservaleSchedulerHelper());
         return observable;
+    }
+
+    @Override
+    public Maybe<Integer> getPersonTotalCount() {
+        return AppDatabase.getInstance().userDao().getPersonTotalCount(GlobalConstant.VALUE_IS_NOT_DELETE).compose(RxHelper.<Integer>rxSchedulerHelper());
     }
 }
