@@ -51,7 +51,7 @@ class MainActivity : BaseActivity() {
             tl_main_tab.newTab().setCustomView(
                 getCustomTabItem(
                     getString(R.string.str_tab_history),
-                    R.drawable.item_tab_main_selector
+                    R.drawable.item_tab_history_selector
                 )
             )
         )
@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
             tl_main_tab.newTab().setCustomView(
                 getCustomTabItem(
                     getString(R.string.str_tab_management),
-                    R.drawable.item_tab_main_selector
+                    R.drawable.item_tab_management_selector
                 )
             )
         )

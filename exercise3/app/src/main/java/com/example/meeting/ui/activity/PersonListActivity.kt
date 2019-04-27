@@ -30,7 +30,7 @@ class PersonListActivity : BaseMVPCompatActivity<PersonManagementPresenter, Pers
         rcv_person_list.layoutManager = LinearLayoutManager(this)
         mManagementAdapter!!.setOnLoadMoreListener(this, rcv_person_list)
         mManagementAdapter!!.setOnItemClickListener { adapter, view, position ->
-            if (position >=0) {
+            if (position >= 0) {
                 val user = mManagementAdapter!!.getItem(position)
                 user?.let { showUserOperateDialog(it, position) }
             }
@@ -86,7 +86,6 @@ class PersonListActivity : BaseMVPCompatActivity<PersonManagementPresenter, Pers
     }
 
 
-
     override fun getLayoutId(): Int {
         return R.layout.activity_person_list
     }
@@ -97,7 +96,7 @@ class PersonListActivity : BaseMVPCompatActivity<PersonManagementPresenter, Pers
      */
     private fun showUserOperateDialog(user: User, position: Int) {
         var builder = AlertDialog.Builder(this)
-        builder.setIcon(R.mipmap.ic_launcher)
+        builder.setIcon(R.drawable.ic_operate)
         builder.setTitle(R.string.str_operate)
         val items = arrayOf(getString(R.string.str_delete), getString(R.string.str_skip))
         builder.setItems(items,

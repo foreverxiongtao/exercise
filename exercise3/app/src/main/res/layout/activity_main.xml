@@ -19,6 +19,11 @@
             android:layout_height="0dp"/>
 
 
+    <View app:layout_constraintBottom_toTopOf="@+id/tl_main_tab"
+          android:layout_marginBottom="@dimen/dp_10"
+          android:background="@color/color_f4f4f4"
+          android:layout_width="match_parent" android:layout_height="@dimen/dp_1"/>
+
     <android.support.design.widget.TabLayout
             android:layout_marginBottom="@dimen/dp_5"
             app:layout_constraintLeft_toLeftOf="parent"
