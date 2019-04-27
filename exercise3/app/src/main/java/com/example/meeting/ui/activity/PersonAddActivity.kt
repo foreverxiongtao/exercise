@@ -8,6 +8,7 @@ import com.example.library.utils.ToastUtils
 import com.example.meeting.R
 import com.example.meeting.constant.GlobalConstant
 import com.example.meeting.contract.AbPersonAddContract
+import com.example.meeting.manager.SPDataManager
 import com.example.meeting.model.entity.User
 import com.example.meeting.presenter.PersonAddPresenter
 import kotlinx.android.synthetic.main.activity_person_add.*
@@ -22,22 +23,22 @@ import kotlinx.android.synthetic.main.activity_person_add.*
 class PersonAddActivity :
     BaseMVPCompatActivity<AbPersonAddContract.AbPersonAddPresenter, AbPersonAddContract.IPersonAddModel>(),
     View.OnClickListener, AbPersonAddContract.IPersonalAddView {
-    override fun onGetNewestNumberEmpty() {
-        var numStr = GlobalConstant.getNumStr(1)
-        et_person_add_num.setText("$numStr")
-    }
+//    }
 
-    override fun onGetNewestNumberFailure(message: String?) {
-
-    }
+    //    override fun onGetNewestNumberEmpty() {
+//        var numStr = GlobalConstant.getNumStr(1)
+//        et_person_add_num.setText("$numStr")
+//    }
+//
+//    override fun onGetNewestNumberFailure(message: String?) {
+//
+//    override fun onGetNewestNumberSuccess(user: User) {
+//        var numStr = GlobalConstant.getNumStr(user.no + 1)
+//        et_person_add_num.setText("$numStr")
+//    }
 
     override fun hideWaitDialog() {
         hideProgressDialog()
-    }
-
-    override fun onGetNewestNumberSuccess(user: User) {
-        var numStr = GlobalConstant.getNumStr(user.no + 1)
-        et_person_add_num.setText("$numStr")
     }
 
     override fun initPresenter(): BasePresenter<*, *> {
@@ -48,8 +49,9 @@ class PersonAddActivity :
         showProgressDialog("")
     }
 
-    override fun onSavePersonSuccess(user: User?) {
+    override fun onSavePersonSuccess(user: User) {
         ToastUtils.showShort(getString(R.string.str_insert_success))
+        SPDataManager.saveNewestUserId(user.no)  //保存最新一个人员的id
         finish()
     }
 
@@ -66,8 +68,21 @@ class PersonAddActivity :
 
     override fun initData() {
         super.initData()
+//        mPresenter.getNewestNumber()
+
         //自动获取最新的员工编号
-        mPresenter.getNewestNumber()
+        val newestUserId = SPDataManager.getNewestUserId()
+        when {
+            newestUserId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT -> {   //第一次新增
+                var numStr = GlobalConstant.getNumStr(1)
+                et_person_add_num.setText("$numStr")
+            }
+            else -> {
+
+                var numStr = GlobalConstant.getNumStr(newestUserId + 1)
+                et_person_add_num.setText("$numStr")
+            }
+        }
     }
 
     override fun getLayoutId(): Int {
@@ -96,11 +111,12 @@ class PersonAddActivity :
             return
         }
         val user = User()
-        user.createTime = System.currentTimeMillis()
+        user.createTime = System.currentTimeMillis() //设置当前的创建
         user.name = name
-        val text = et_person_add_num.text.toString().substring(2)
+        val text = et_person_add_num.text.toString().substring(GlobalConstant.PRE_USER_NUMBER.length)
         user.no = text.toInt()
-        user.isDelete = GlobalConstant.VALUE_IS_NOT_DELETE
+        user.isSkip = GlobalConstant.VALUE_IS_NOT_SKIP   //默认是不跳过
+        user.isDelete = GlobalConstant.VALUE_IS_NOT_DELETE //默认是不删除
         mPresenter.saveUser(user)
     }
 }

@@ -27,7 +27,7 @@ public class PersonManagementModel extends BaseModel implements AbPersonManageme
     }
 
     @Override
-    public Observable<Integer> deletePerson(final User user) {
+    public Observable<Integer> updatePerson(final User user) {
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {

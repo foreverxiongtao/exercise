@@ -45,11 +45,28 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_marginEnd="@dimen/dp_10"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_management_name"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_management_name"
             android:textSize="@dimen/sp_14"
-            android:textStyle="bold"
             android:gravity="center"
+            tools:text="ccccccccccccccccc"/>
+
+
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_management_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            app:layout_constraintTop_toTopOf="@+id/tv_management_no"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_management_no"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:text="@string/str_skip_meeting"
+            android:textColor="@color/colorRateRed"
             tools:text="ccccccccccccccccc"/>
 
     <View

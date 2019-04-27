@@ -7,7 +7,9 @@ import android.arch.persistence.room.RoomDatabase;
 import android.support.annotation.NonNull;
 import com.example.library.utils.LogUtils;
 import com.example.meeting.MeetingApplication;
+import com.example.meeting.db.dao.MeetingHistoryDao;
 import com.example.meeting.db.dao.UserDao;
+import com.example.meeting.model.entity.MeetingHistory;
 import com.example.meeting.model.entity.User;
 
 /**
@@ -17,7 +19,7 @@ import com.example.meeting.model.entity.User;
  * desc   :room数据库实体类
  * version: 1.0
  */
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class, MeetingHistory.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String TAG = AppDatabase.class.getSimpleName();
@@ -25,6 +27,8 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mAppDatabase;
 
     public abstract UserDao userDao();   //获取userdao层
+
+    public abstract MeetingHistoryDao meetingHistoryDao(); //会议历史
 
 
     /***

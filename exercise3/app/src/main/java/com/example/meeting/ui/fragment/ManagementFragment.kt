@@ -7,11 +7,11 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.example.library.base.BasePresenter
 import com.example.library.base.fragment.BaseMVPCompatFragment
 import com.example.library.utils.ActivityUtils
+import com.example.library.utils.ToastUtils
 import com.example.meeting.R
 import com.example.meeting.adapter.ManagementAdapter
 import com.example.meeting.constant.GlobalConstant
@@ -58,7 +58,12 @@ class ManagementFragment :
 
     override fun refreshUserListSuccess(list: MutableList<User>?) {
         srl_management_refresh.isRefreshing = false
-        list?.let { mManagementAdapter?.setNewData(it) }
+        list?.let {
+            mManagementAdapter?.setNewData(it)
+            when {
+                it.size < GlobalConstant.VALUE_PAGING_DEFAULT -> mManagementAdapter!!.loadMoreEnd(true)
+            }
+        }
     }
 
     override fun refreshUserListFailure(message: String?) {
@@ -131,9 +136,12 @@ class ManagementFragment :
                     //修改用户的删除状态
                     GlobalConstant.VALUE_OPERATE_DELETE -> mPresenter.deletePerson(user, position)
                     GlobalConstant.VALUE_OPERATE_SKIP -> {
-
+                        if (user.isSkip == GlobalConstant.VALUE_IS_NOT_SKIP) {
+                            mPresenter.skipMeeting(user, position)
+                        } else {
+                            ToastUtils.showLong(getString(R.string.str_meeting_already_skip))
+                        }
                     }
-
                 }
             })
         builder.setCancelable(true)
@@ -173,6 +181,14 @@ class ManagementFragment :
     override fun showNoMoreData() {
         srl_management_refresh.isRefreshing = false
         mManagementAdapter!!.loadMoreEnd(false)
+    }
+
+    override fun onSkipMeetingSuccess(user: User, position: Int) {
+        mManagementAdapter!!.setData(position, user)
+    }
+
+    override fun onSkipMeetingFailure() {
+        ToastUtils.showShort(getString(R.string.str_skip_meeting_failure))
     }
 
 

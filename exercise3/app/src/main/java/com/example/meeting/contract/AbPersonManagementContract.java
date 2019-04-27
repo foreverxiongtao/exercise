@@ -28,13 +28,15 @@ public interface AbPersonManagementContract {
 
         public abstract void deletePerson(User user, int position);
 
+        public abstract void skipMeeting(User user, int position);
+
     }
 
     interface IPersonManagementModel extends IBaseModel {
 
         Maybe<List<User>> getUsers(int page);
 
-        Observable<Integer> deletePerson(User user);
+        Observable<Integer> updatePerson(User user);
 
         Maybe<Integer> getPersonTotalCount();
     }
@@ -60,6 +62,11 @@ public interface AbPersonManagementContract {
         void onDeletePersonSuccess(int position);
 
         void onDeletePersonFailure();
+
+
+        void onSkipMeetingSuccess(User user, int position);
+
+        void onSkipMeetingFailure();
 
     }
 }

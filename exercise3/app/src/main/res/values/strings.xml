@@ -17,4 +17,8 @@
     <string name="str_operate">操作</string>
     <string name="str_skip">跳过</string>
     <string name="str_delete">删除</string>
+    <string name="str_skip_meeting">已跳过本次会议主持</string>
+    <string name="str_skip_meeting_failure">跳过会议功能失败，请重试</string>
+    <string name="str_meeting_already_skip">当前用户已跳过本次会议主持</string>
+    <string name="str_host">主持人:</string>
 </resources>

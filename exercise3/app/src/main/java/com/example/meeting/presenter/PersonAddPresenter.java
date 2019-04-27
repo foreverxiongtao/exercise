@@ -25,26 +25,26 @@ public class PersonAddPresenter extends AbPersonAddContract.AbPersonAddPresenter
 
     @Override
     public void getNewestNumber() {
-        if (mIView == null || mIModel == null) {
-            return;
-        }
-        mRxManager.register(mIModel.getNewestNumber().subscribe(new Consumer<User>() {
-            @Override
-            public void accept(User integer) throws Exception {
-                mIView.onGetNewestNumberSuccess(integer);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                mIView.onGetNewestNumberFailure(throwable.getMessage());
-            }
-        }, new Action() {
-            @Override
-            public void run() throws Exception {
-                mIView.onGetNewestNumberEmpty();
-                LogUtils.d("*******************");
-            }
-        }));
+//        if (mIView == null || mIModel == null) {
+//            return;
+//        }
+//        mRxManager.register(mIModel.getNewestNumber().subscribe(new Consumer<User>() {
+//            @Override
+//            public void accept(User integer) throws Exception {
+//                mIView.onGetNewestNumberSuccess(integer);
+//            }
+//        }, new Consumer<Throwable>() {
+//            @Override
+//            public void accept(Throwable throwable) throws Exception {
+//                mIView.onGetNewestNumberFailure(throwable.getMessage());
+//            }
+//        }, new Action() {
+//            @Override
+//            public void run() throws Exception {
+//                mIView.onGetNewestNumberEmpty();
+//                LogUtils.d("*******************");
+//            }
+//        }));
     }
 
     @Override

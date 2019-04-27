@@ -37,5 +37,12 @@ public class ManagementAdapter extends BaseCompatAdapter<User, BaseViewHolder> {
 
         TextView tv_management_date = helper.getView(R.id.tv_management_date);
         tv_management_date.setText(TimeUtils.millis2String(item.getCreateTime()));
+
+        TextView tv_management_skip = helper.getView(R.id.tv_management_skip);
+        if (item.getIsSkip() == GlobalConstant.VALUE_IS_SKIP) {
+            tv_management_skip.setVisibility(View.VISIBLE);
+        } else {
+            tv_management_skip.setVisibility(View.GONE);
+        }
     }
 }

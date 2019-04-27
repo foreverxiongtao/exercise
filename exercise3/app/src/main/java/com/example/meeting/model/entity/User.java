@@ -17,17 +17,10 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "t_users")
 public class User {
+
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "u_id")
+    @ColumnInfo(name = "uid")
     private int id;   // 编号
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @ColumnInfo(name = "no")
     @NonNull
@@ -36,12 +29,37 @@ public class User {
     @ColumnInfo(name = "name")
     @NonNull
     private String name;  //姓名
+
     @ColumnInfo(name = "create_time")
     @NonNull
     private long createTime;  //创建时间
+
     @ColumnInfo(name = "is_delete")
     @NonNull
     private int isDelete;  //是否删除
+
+    @ColumnInfo(name = "is_skip")
+    @NonNull
+    private int isSkip;  //是否跳过
+
+
+
+
+    public int getIsSkip() {
+        return isSkip;
+    }
+
+    public void setIsSkip(int isSkip) {
+        this.isSkip = isSkip;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getNo() {
         return no;

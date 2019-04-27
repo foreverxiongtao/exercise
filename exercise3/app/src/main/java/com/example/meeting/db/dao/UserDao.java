@@ -1,6 +1,7 @@
 package com.example.meeting.db.dao;
 
 import android.arch.persistence.room.*;
+import android.util.Log;
 import com.example.meeting.model.entity.User;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -28,6 +29,7 @@ public interface UserDao {
     @Query("select * from t_users where is_delete =:deleteStatus order by `no` limit:offset,:defaultPaging")
     Maybe<List<User>> getAllUsers(int deleteStatus, int offset, int defaultPaging);
 
+
     @Query("select count(`no`) from t_users where is_delete=:deleteStatus")
     Maybe<Integer> getPersonTotalCount(int deleteStatus);
 
@@ -48,6 +50,31 @@ public interface UserDao {
     @Query("select * from t_users  order by `no` desc limit 1 ")
     Maybe<User> getNewestNumber();
 
+    /***
+     * 修改用户信息
+     * @param user
+     * @return
+     */
     @Update(onConflict = OnConflictStrategy.REPLACE)
     int updateUser(User user);
+
+
+    /**
+     * 重置所有用户的跳过状态
+     *
+     * @return
+     */
+    @Query("update t_users set  is_skip = :skipStauts ")
+    void resetSkipStatus(int skipStauts);
+
+
+    /**
+     * 获取第一条能主持会议的用户
+     *
+     * @return
+     */
+    @Query("select * from t_users where is_delete =:deleteStatus and uid>:uid and is_skip =:notSkip order by `no` limit 1 ")
+    Maybe<User> getAvaiableUser(int deleteStatus, int uid, int notSkip);
+
+
 }

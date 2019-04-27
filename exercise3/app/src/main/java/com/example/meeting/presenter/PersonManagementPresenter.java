@@ -143,7 +143,7 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
             return;
         }
         user.setIsDelete(GlobalConstant.VALUE_IS_DELETE);  //设置当前的用户删除状态
-        mRxManager.register(mIModel.deletePerson(user).subscribe(new Consumer<Integer>() {
+        mRxManager.register(mIModel.updatePerson(user).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer row) throws Exception {
                 mIView.onDeletePersonSuccess(position);
@@ -152,6 +152,25 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
             @Override
             public void accept(Throwable throwable) throws Exception {
                 mIView.onDeletePersonFailure();
+            }
+        }));
+    }
+
+    @Override
+    public void skipMeeting(final User user, final int position) {
+        if (mIModel == null || mIView == null) {
+            return;
+        }
+        user.setIsSkip(GlobalConstant.VALUE_IS_SKIP);  //设置当前的用户的状态为跳过状态
+        mRxManager.register(mIModel.updatePerson(user).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer row) throws Exception {
+                mIView.onSkipMeetingSuccess(user, position);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                mIView.onSkipMeetingFailure();
             }
         }));
     }

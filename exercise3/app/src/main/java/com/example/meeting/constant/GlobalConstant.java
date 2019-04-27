@@ -23,6 +23,10 @@ public class GlobalConstant {
     public static final int VALUE_OPERATE_SKIP = 1;
 
 
+    public static final int VALUE_IS_SKIP = 1;
+    public static final int VALUE_IS_NOT_SKIP = 2;
+
+
     public static String getNumStr(int number) {
         String numPre = GlobalConstant.PRE_USER_NUMBER;
         String numStr = number + "";

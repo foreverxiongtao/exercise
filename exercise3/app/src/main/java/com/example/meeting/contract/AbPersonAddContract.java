@@ -34,11 +34,11 @@ public interface AbPersonAddContract {
 
     interface IPersonalAddView extends IBaseView {
 
-        void onGetNewestNumberSuccess(User user);
+//        void onGetNewestNumberSuccess(User user);
 
-        void onGetNewestNumberFailure(String message);
+//        void onGetNewestNumberFailure(String message);
 
-        void onGetNewestNumberEmpty();
+//        void onGetNewestNumberEmpty();
 
         void onSavePersonSuccess(User user);
 
