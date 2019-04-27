@@ -1,6 +1,7 @@
 package com.example.meeting.db.dao;
 
 import android.arch.persistence.room.*;
+import android.database.Cursor;
 import android.util.Log;
 import com.example.meeting.model.entity.User;
 import io.reactivex.Flowable;
