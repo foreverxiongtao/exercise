@@ -47,18 +47,21 @@ public class MeetingManager {
      * 发布会议
      */
     public void publishMeeting() {
-        int lastMeetingHostId = SPDataManager.getLastMeetingHostId();
+        //获取上一次主持会议的用户
+        final int lastMeetingHostId = SPDataManager.getLastMeetingHostId();
         if (lastMeetingHostId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT) { //第一次会议
             Maybe<User> firstUser = AppDatabase.getInstance().userDao().getAvaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, VALUE_USER_ID_DEFAULT, GlobalConstant.VALUE_IS_NOT_SKIP);
             mManager.register(firstUser.compose(RxHelper.<User>rxSchedulerHelper()).observeOn(Schedulers.io()).map(new Function<User, MeetingHistory>() {
                 @Override
                 public MeetingHistory apply(User user) {
+
                     MeetingHistory meetingHistory = new MeetingHistory();
                     meetingHistory.setHostTime(System.currentTimeMillis());
                     meetingHistory.setUserId(user.getId());
                     long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//插入历史会议
                     if (row > 0) {
-                        SPDataManager.saveLastMeetingHostId(user.getId());
+                        SPDataManager.saveLastMeetingHostId(user.getId()); //更新主持会议的用户
+                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP,lastMeetingHostId,user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
                         return meetingHistory;
                     } else {
                         return null;
@@ -82,6 +85,7 @@ public class MeetingManager {
                     long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//插入历史会议
                     if (row > 0) {
                         SPDataManager.saveLastMeetingHostId(user.getId());
+                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP,lastMeetingHostId,user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
                         return meetingHistory;
                     } else {
                         return null;
@@ -116,10 +120,8 @@ public class MeetingManager {
         RxHelper.createObservable(Void.class).compose(RxHelper.<Class<Void>>rxSchedulerHelperIO()).subscribe(new Consumer<Class<Void>>() {
             @Override
             public void accept(Class<Void> voidClass) throws Exception {
-                //重置数据库中的跳过标志位
-                AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP);
-                SPDataManager.saveLastMeetingHostId(SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT);
-                publishMeeting();
+                SPDataManager.saveLastMeetingHostId(SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT); //还原上一次主次会议的用户标示
+                publishMeeting();  //开启新一轮的会议主持
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -127,6 +129,16 @@ public class MeetingManager {
                 LogUtils.e(TAG, throwable.getLocalizedMessage());
             }
         });
+    }
+
+
+    /***
+     * 将start-end 之间的人员is_skip 状态调整，从而模拟本次已跳过
+     * @param startUid
+     * @param endUid
+     */
+    private void skip(int startUid, int endUid) {
+
     }
 
 }

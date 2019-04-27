@@ -70,12 +70,21 @@ public interface UserDao {
 
 
     /**
-     * 获取第一条能主持会议的用户
+     * 获取能满足主持会议的最近一条用户
      *
      * @return
      */
     @Query("select * from t_users where is_delete =:deleteStatus and uid>:uid and is_skip =:notSkip order by `no` limit 1 ")
     Maybe<User> getAvaiableUser(int deleteStatus, int uid, int notSkip);
+
+
+    /**
+     * 将指定区间段的用户跳过状态修改
+     *
+     * @return
+     */
+    @Query("update t_users set  is_skip = :skipStauts where is_skip != :skipStauts and  uid between :startUid and :endUid ")
+    void resetSkipStatus(int skipStauts, int startUid, int endUid);
 
 
 }
