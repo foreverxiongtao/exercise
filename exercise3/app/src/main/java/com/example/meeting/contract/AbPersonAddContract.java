@@ -21,11 +21,15 @@ public interface AbPersonAddContract {
 
         public abstract void getNewestNumber();
 
+        public abstract void saveUser(User user);
+
     }
 
     interface IPersonAddModel extends IBaseModel {
 
         Maybe<User> getNewestNumber();
+
+        Observable<Long> saveUser(User user);
     }
 
     interface IPersonalAddView extends IBaseView {
@@ -33,6 +37,8 @@ public interface AbPersonAddContract {
         void onGetNewestNumberSuccess(User user);
 
         void onGetNewestNumberFailure(String message);
+
+        void onGetNewestNumberEmpty();
 
         void onSavePersonSuccess(User user);
 

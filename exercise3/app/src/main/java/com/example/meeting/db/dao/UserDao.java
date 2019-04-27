@@ -1,13 +1,9 @@
 package com.example.meeting.db.dao;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
+import android.arch.persistence.room.*;
 import com.example.meeting.model.entity.User;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -21,12 +17,31 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-    @Query("select * from t_users")
-    Flowable<List<User>> getUsers();
+    /**
+     * 获取所有的用户(未删除)
+     * @param deleteStatus
+     * @param offset
+     * @param defaultPaging
+     * @return
+     */
+    @Query("select * from t_users where is_delete =:deleteStatus order by `no` limit:offset,:defaultPaging")
+    Maybe<List<User>> getAllUsers(int deleteStatus, int offset, int defaultPaging);
 
+    /***
+     * 插入用户
+     * @param user
+     * @return
+     */
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    long insertUsers(User user);
+    Long insertUsers(User user);
 
-    @Query("select * from t_users  order by create_time limit 1 ")
+    /**
+     * 获取当前最新的用户
+     * @return
+     */
+    @Query("select * from t_users  order by `no` desc limit 1 ")
     Maybe<User> getNewestNumber();
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    int updateUser(User user);
 }

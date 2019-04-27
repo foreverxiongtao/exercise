@@ -2,15 +2,12 @@ package com.example.meeting.ui.activity
 
 import android.os.Bundle
 import android.view.View
-import com.example.library.base.BaseActivity
-import com.example.library.base.BaseMVPCompatActivity
+import com.example.library.base.activity.BaseMVPCompatActivity
 import com.example.library.base.BasePresenter
-import com.example.library.utils.LogUtils
 import com.example.library.utils.ToastUtils
 import com.example.meeting.R
 import com.example.meeting.constant.GlobalConstant
 import com.example.meeting.contract.AbPersonAddContract
-import com.example.meeting.db.AppDatabase
 import com.example.meeting.model.entity.User
 import com.example.meeting.presenter.PersonAddPresenter
 import kotlinx.android.synthetic.main.activity_person_add.*
@@ -25,32 +22,39 @@ import kotlinx.android.synthetic.main.activity_person_add.*
 class PersonAddActivity :
     BaseMVPCompatActivity<AbPersonAddContract.AbPersonAddPresenter, AbPersonAddContract.IPersonAddModel>(),
     View.OnClickListener, AbPersonAddContract.IPersonalAddView {
+    override fun onGetNewestNumberEmpty() {
+        var numStr = GlobalConstant.getNumStr(1)
+        et_person_add_num.setText("$numStr")
+    }
 
     override fun onGetNewestNumberFailure(message: String?) {
 
     }
 
     override fun hideWaitDialog() {
-        showProgressDialog("")
+        hideProgressDialog()
     }
 
-    override fun onGetNewestNumberSuccess(number: User) {
-        LogUtils.d(number.toString())
+    override fun onGetNewestNumberSuccess(user: User) {
+        var numStr = GlobalConstant.getNumStr(user.no + 1)
+        et_person_add_num.setText("$numStr")
     }
 
     override fun initPresenter(): BasePresenter<*, *> {
-        return PersonAddPresenter()
+        return PersonAddPresenter.newInstance()
     }
 
     override fun showWaitDialog(waitMsg: String?) {
-
+        showProgressDialog("")
     }
 
     override fun onSavePersonSuccess(user: User?) {
+        ToastUtils.showShort(getString(R.string.str_insert_success))
+        finish()
     }
 
     override fun onSavePersonFailure() {
-
+        ToastUtils.showShort(getString(R.string.str_insert_failure))
     }
 
 
@@ -94,12 +98,9 @@ class PersonAddActivity :
         val user = User()
         user.createTime = System.currentTimeMillis()
         user.name = name
+        val text = et_person_add_num.text.toString().substring(2)
+        user.no = text.toInt()
         user.isDelete = GlobalConstant.VALUE_IS_NOT_DELETE
-        val id = AppDatabase.getInstance().userDao().insertUsers(user)
-        if (id > 0) {
-            ToastUtils.showShort(getString(R.string.str_insert_success))
-        } else {
-            ToastUtils.showShort(getString(R.string.str_insert_failure))
-        }
+        mPresenter.saveUser(user)
     }
 }

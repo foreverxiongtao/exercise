@@ -36,4 +36,10 @@ dependencies {
     compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
     compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
     compile "com.jakewharton.rxbinding2:rxbinding:$rootProject.rxbindingVersion"
+
+    //eventbus
+    api "org.greenrobot:eventbus:$rootProject.EventBusVersion"
+
+    compile "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.BaseRecyclerViewAdapterHelperVersion"
+
 }

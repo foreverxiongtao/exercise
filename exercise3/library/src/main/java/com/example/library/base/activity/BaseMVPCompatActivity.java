@@ -1,4 +1,9 @@
-package com.example.library.base;
+package com.example.library.base.activity;
+
+import com.example.library.base.BasePresenter;
+import com.example.library.base.IBaseActivity;
+import com.example.library.base.IBaseModel;
+import com.example.library.base.activity.BaseActivity;
 
 /**
  * Created by FKQ on 2017/12/19  12:03

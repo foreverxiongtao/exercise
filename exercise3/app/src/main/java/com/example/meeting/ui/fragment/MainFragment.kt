@@ -2,7 +2,7 @@ package com.example.meeting.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import com.example.library.base.BaseCompatFragment
+import com.example.library.base.fragment.BaseCompatFragment
 import com.example.meeting.R
 import com.example.meeting.constant.GlobalConstant
 

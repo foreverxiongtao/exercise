@@ -1,4 +1,4 @@
-package com.example.library.base;
+package com.example.library.base.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.example.library.R;
+import com.example.library.base.BaseApplication;
 import com.example.library.utils.LogUtils;
 import com.example.library.widget.WaitPorgressDialog;
 

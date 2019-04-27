@@ -11,4 +11,10 @@
     <string name="str_person_save">保存</string>
     <string name="str_insert_success">人员录入成功</string>
     <string name="str_insert_failure">人员录入失败，请重试</string>
+    <string name="loading">加载中...</string>
+    <string name="load_fail">加载失败</string>
+    <string name="load_end">没有更多</string>
+    <string name="str_operate">操作</string>
+    <string name="str_skip">跳过</string>
+    <string name="str_delete">删除</string>
 </resources>

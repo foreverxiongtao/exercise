@@ -1,5 +1,6 @@
 package com.example.meeting.presenter;
 
+import android.support.annotation.NonNull;
 import com.example.library.utils.LogUtils;
 import com.example.meeting.contract.AbPersonAddContract;
 import com.example.meeting.model.PersonAddModel;
@@ -15,6 +16,13 @@ import io.reactivex.functions.Consumer;
  * version: 1.0
  */
 public class PersonAddPresenter extends AbPersonAddContract.AbPersonAddPresenter {
+
+
+    @NonNull
+    public static PersonAddPresenter newInstance() {
+        return new PersonAddPresenter();
+    }
+
     @Override
     public void getNewestNumber() {
         if (mIView == null || mIModel == null) {
@@ -33,7 +41,26 @@ public class PersonAddPresenter extends AbPersonAddContract.AbPersonAddPresenter
         }, new Action() {
             @Override
             public void run() throws Exception {
-                LogUtils.e("*******************");
+                mIView.onGetNewestNumberEmpty();
+                LogUtils.d("*******************");
+            }
+        }));
+    }
+
+    @Override
+    public void saveUser(final User user) {
+        if (mIView == null || mIModel == null) {
+            return;
+        }
+        mRxManager.register(mIModel.saveUser(user).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(Long integer) throws Exception {
+                mIView.onSavePersonSuccess(user);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                mIView.onSavePersonFailure();
             }
         }));
     }

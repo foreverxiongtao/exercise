@@ -31,6 +31,23 @@ public class RxHelper {
         };
     }
 
+
+    /**
+     * 统一线程处理
+     * <p>
+     * 发布事件io线程，接收事件主线程
+     */
+    public static <T> ObservableTransformer<T, T> rxObservaleSchedulerHelper() {//compose处理线程
+        return new ObservableTransformer<T, T>() {
+
+            @Override
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                return upstream.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
     /**
      * 统一线程处理
      * <p>
