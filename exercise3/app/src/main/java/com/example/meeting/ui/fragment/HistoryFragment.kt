@@ -94,12 +94,13 @@ class HistoryFragment : BaseMVPCompatFragment<MeetingHistoryPresenter, MeetingHi
         rcv_history_list.adapter = mMeetingHistoryAdapter
         rcv_history_list.layoutManager = LinearLayoutManager(mActivity)
         mMeetingHistoryAdapter!!.setOnLoadMoreListener(this, rcv_history_list)
-        tv_top_metting.setOnClickListener({
-            MeetingManager.getInstance().publishMeeting()
-        })
+        tv_top_metting.setOnClickListener {
+            MeetingManager.getInstance().checkMeetingPublishAvaiablity()
+        }
     }
 
     override fun initData() {
+
         EventBus.getDefault().register(this)
         super.initData()
         mPresenter.refreshMeetingHistoryCount()

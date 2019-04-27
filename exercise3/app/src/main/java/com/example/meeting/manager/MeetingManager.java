@@ -1,8 +1,10 @@
 package com.example.meeting.manager;
 
+import android.os.SystemClock;
 import com.example.library.helper.RxHelper;
 import com.example.library.manager.RxManager;
 import com.example.library.utils.LogUtils;
+import com.example.library.utils.TimeUtils;
 import com.example.meeting.constant.GlobalConstant;
 import com.example.meeting.db.AppDatabase;
 import com.example.meeting.model.entity.MeetingHistory;
@@ -43,10 +45,28 @@ public class MeetingManager {
     }
 
 
+    /**
+     * 检查当天是否满足会议发布
+     */
+    public void checkMeetingPublishAvaiablity() {
+        long newestMeetingDate = SPDataManager.getNewestMeetingDate();
+        if (newestMeetingDate == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT) { //判断当天未发布过会议
+            publishMeeting();
+        } else {
+            int result = TimeUtils.compareDate(System.currentTimeMillis(), newestMeetingDate);
+            if (result == 1) {  //当前的日期比上一次保存的日期大
+                publishMeeting();
+            }
+        }
+    }
+
+
     /***
      * 发布会议
      */
     public void publishMeeting() {
+
+
         //获取上一次主持会议的用户
         final int lastMeetingHostId = SPDataManager.getLastMeetingHostId();
         if (lastMeetingHostId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT) { //第一次会议
@@ -54,14 +74,15 @@ public class MeetingManager {
             mManager.register(firstUser.compose(RxHelper.<User>rxSchedulerHelper()).observeOn(Schedulers.io()).map(new Function<User, MeetingHistory>() {
                 @Override
                 public MeetingHistory apply(User user) {
-
+                    long currentTimeStamp = System.currentTimeMillis();
                     MeetingHistory meetingHistory = new MeetingHistory();
-                    meetingHistory.setHostTime(System.currentTimeMillis());
+                    meetingHistory.setHostTime(currentTimeStamp);
                     meetingHistory.setUserId(user.getId());
                     long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//插入历史会议
                     if (row > 0) {
                         SPDataManager.saveLastMeetingHostId(user.getId()); //更新主持会议的用户
-                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP,lastMeetingHostId,user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
+                        SPDataManager.saveNewestMeetingDate(currentTimeStamp);
+                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
                         return meetingHistory;
                     } else {
                         return null;
@@ -79,13 +100,15 @@ public class MeetingManager {
             mManager.register(firstUser.compose(RxHelper.<User>rxSchedulerHelper()).observeOn(Schedulers.io()).map(new Function<User, MeetingHistory>() {
                 @Override
                 public MeetingHistory apply(User user) {
+                    long currentTimeStamp = System.currentTimeMillis();
                     MeetingHistory meetingHistory = new MeetingHistory();
-                    meetingHistory.setHostTime(System.currentTimeMillis());
+                    meetingHistory.setHostTime(currentTimeStamp);
                     meetingHistory.setUserId(user.getId());
                     long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//插入历史会议
                     if (row > 0) {
                         SPDataManager.saveLastMeetingHostId(user.getId());
-                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP,lastMeetingHostId,user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
+                        SPDataManager.saveNewestMeetingDate(currentTimeStamp);
+                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
                         return meetingHistory;
                     } else {
                         return null;

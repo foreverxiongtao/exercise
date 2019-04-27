@@ -1,6 +1,7 @@
 package com.example.library.utils;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import com.example.library.constant.TimeConstants;
 
 import java.text.DateFormat;
@@ -721,7 +722,7 @@ public final class TimeUtils {
      * <li>其余显示，2016-10-15</li>
      * <li>时间不合法的情况全部日期和时间信息，如星期六 十月 27 14:21:20 CST 2007</li>
      * </ul>
-//     */
+    //     */
 //    public static String getFriendlyTimeSpanByNow(Context context, final String time) {
 //        return getFriendlyTimeSpanByNow(context, time, DEFAULT_FORMAT);
 //    }
@@ -851,7 +852,6 @@ public final class TimeUtils {
 //            return String.format(context.getString(R.string.str_tf), millis);
 //        }
 //    }
-
     private static long getWeeOfToday() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -1819,12 +1819,12 @@ public final class TimeUtils {
         long minutes = (mss % (60 * 60)) / 60;
         long seconds = mss % 60;
         if (hours > 0) {
-            DateTimes = (hours<10?"0"+hours:hours) + ":" + (minutes<10?"0"+minutes:minutes) + ":" + (seconds<10?"0"+seconds:seconds);
+            DateTimes = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
         } else if (minutes > 0) {
-            DateTimes = "00:" + (minutes<10?"0"+minutes:minutes) + ":" + (seconds<10?"0"+seconds:seconds);
+            DateTimes = "00:" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
 
         } else {
-            DateTimes = "00:00:" + (seconds<10?"0"+seconds:seconds);
+            DateTimes = "00:00:" + (seconds < 10 ? "0" + seconds : seconds);
         }
         return DateTimes;
     }
@@ -1839,11 +1839,37 @@ public final class TimeUtils {
         if (0L == chatTime) {
             return 0;
         }
-        if ((chatTime/1000)%60 == 0L) {
-            return (int) (chatTime/1000/60);
+        if ((chatTime / 1000) % 60 == 0L) {
+            return (int) (chatTime / 1000 / 60);
         } else {
-            return (int) (chatTime/1000/60) + 1;
+            return (int) (chatTime / 1000 / 60) + 1;
         }
+    }
+
+
+    /***
+     * 比较两个日期的大小
+     * @param firstTimeStamp
+     * @param otherTimeStamp
+     * @return
+     */
+    public static int compareDate(long firstTimeStamp, long otherTimeStamp) {
+        try {
+            Date dt1 = CUSTOM_FORMAT_TIME.parse(millis2StringByCustomTime(firstTimeStamp));
+            Date dt2 = CUSTOM_FORMAT_TIME.parse(millis2StringByCustomTime(otherTimeStamp));
+            if (dt1.getTime() > dt2.getTime()) {
+                LogUtils.d("dt1 在dt2前");
+                return 1;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                LogUtils.d("dt1在dt2后");
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return 0;
     }
 
 }

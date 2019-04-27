@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/tl_person_list_title"
+            style="@style/toolbarStyle">
+
+        <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/toolbarTileStyle"
+                android:text="@string/str_person_list"/>
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_person_list_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcv_person_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:elevation="1dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="none"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>

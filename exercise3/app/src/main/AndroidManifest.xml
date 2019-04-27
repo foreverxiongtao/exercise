@@ -25,6 +25,15 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme"
                 android:windowSoftInputMode="stateVisible|stateHidden|adjustResize"/>
+
+        <!--人员列表界面-->
+        <activity
+                android:name=".ui.activity.PersonListActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateVisible|stateHidden|adjustResize"/>
     </application>
 
 </manifest>

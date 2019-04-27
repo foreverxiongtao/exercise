@@ -9,9 +9,11 @@ import com.example.meeting.R
 import com.example.meeting.constant.GlobalConstant
 import com.example.meeting.contract.AbPersonAddContract
 import com.example.meeting.manager.SPDataManager
+import com.example.meeting.model.entity.NotifyChangedEvent
 import com.example.meeting.model.entity.User
 import com.example.meeting.presenter.PersonAddPresenter
 import kotlinx.android.synthetic.main.activity_person_add.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * author : desperado
@@ -52,6 +54,11 @@ class PersonAddActivity :
     override fun onSavePersonSuccess(user: User) {
         ToastUtils.showShort(getString(R.string.str_insert_success))
         SPDataManager.saveNewestUserId(user.no)  //保存最新一个人员的id
+        if (user.no < GlobalConstant.VALUE_PAGING_DEFAULT) {  //新增人员未满一页
+            val notifyChangedEvent = NotifyChangedEvent(NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD)
+            notifyChangedEvent.user = user
+            EventBus.getDefault().post(notifyChangedEvent)
+        }
         finish()
     }
 

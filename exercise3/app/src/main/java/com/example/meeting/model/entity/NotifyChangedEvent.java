@@ -13,6 +13,16 @@ public class NotifyChangedEvent {
 
     private final int notifyObj;
 
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public NotifyChangedEvent(int notifyObj) {
         this.notifyObj = notifyObj;
     }
@@ -21,7 +31,8 @@ public class NotifyChangedEvent {
         return notifyObj;
     }
 
-    static class NotifyChangeEventConstant {
-        private static final int OBJ_PERSON_ADD = 1;
+   public static class NotifyChangeEventConstant {
+        public static final int OBJ_PERSON_ADD = 1;
+        public static final int OBJ_PERSON_TOTAL_COUNT = 2;
     }
 }

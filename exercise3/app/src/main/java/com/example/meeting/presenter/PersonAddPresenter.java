@@ -55,6 +55,8 @@ public class PersonAddPresenter extends AbPersonAddContract.AbPersonAddPresenter
         mRxManager.register(mIModel.saveUser(user).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long integer) throws Exception {
+                long id = integer;
+                user.setId((int) id);
                 mIView.onSavePersonSuccess(user);
             }
         }, new Consumer<Throwable>() {

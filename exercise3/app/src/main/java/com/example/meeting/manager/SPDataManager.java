@@ -18,6 +18,7 @@ public class SPDataManager {
     public static class SPDataConstant {
         public static final String KEY_LAST_MEETING_HOST_ID = "key_last_meeting_host_id";
         public static final String KEY_NEWEST_USER_ID = "key_newest_user_id";
+        public static final String KEY_LAST_MEETING_PUBLISH_DATE = "key_last_meeting_publish_date";
         public static final int VALUE_LAST_MEETING_HOST_ID_DEFAULT = -1;
     }
 
@@ -72,6 +73,23 @@ public class SPDataManager {
      */
     public static int getNewestUserId() {
         return SP_UTILS.getInt(SPDataConstant.KEY_NEWEST_USER_ID, SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT);
+    }
+
+
+    /***
+     * 保存最近一个创建会议的日期
+     * @param timestamp
+     */
+    public static void saveNewestMeetingDate(long timestamp) {
+        SP_UTILS.put(SPDataConstant.KEY_LAST_MEETING_PUBLISH_DATE, timestamp);
+    }
+
+    /***
+     * 获取最近一个创建会议的日期
+     * @return
+     */
+    public static long getNewestMeetingDate() {
+        return SP_UTILS.getLong(SPDataConstant.KEY_LAST_MEETING_PUBLISH_DATE, SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT);
     }
 
 

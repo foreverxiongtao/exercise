@@ -21,4 +21,8 @@
     <string name="str_skip_meeting_failure">跳过会议功能失败，请重试</string>
     <string name="str_meeting_already_skip">当前用户已跳过本次会议主持</string>
     <string name="str_host">主持人:</string>
+    <string name="str_person_list">人员列表</string>
+    <string name="string_today">今天</string>
+    <string name="str_yesterday">昨天</string>
+    <string name="string_tomorrow">明天</string>
 </resources>
