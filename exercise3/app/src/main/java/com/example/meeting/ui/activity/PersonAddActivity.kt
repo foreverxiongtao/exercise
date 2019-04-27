@@ -54,11 +54,6 @@ class PersonAddActivity :
     override fun onSavePersonSuccess(user: User) {
         ToastUtils.showShort(getString(R.string.str_insert_success))
         SPDataManager.saveNewestUserId(user.no)  //保存最新一个人员的id
-        if (user.no < GlobalConstant.VALUE_PAGING_DEFAULT) {  //新增人员未满一页
-            val notifyChangedEvent = NotifyChangedEvent(NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD)
-            notifyChangedEvent.user = user
-            EventBus.getDefault().post(notifyChangedEvent)
-        }
         finish()
     }
 

@@ -3,6 +3,7 @@ package com.example.meeting.presenter;
 import android.support.annotation.NonNull;
 import com.example.library.utils.LogUtils;
 import com.example.meeting.contract.AbPersonAddContract;
+import com.example.meeting.manager.MeetingManager;
 import com.example.meeting.model.PersonAddModel;
 import com.example.meeting.model.entity.User;
 import io.reactivex.functions.Action;
@@ -52,7 +53,15 @@ public class PersonAddPresenter extends AbPersonAddContract.AbPersonAddPresenter
         if (mIView == null || mIModel == null) {
             return;
         }
-        mRxManager.register(mIModel.saveUser(user).subscribe(new Consumer<Long>() {
+        mRxManager.register(mIModel.saveUser(user).doOnNext(new Consumer<Long>() {
+            @Override
+            public void accept(Long aLong) throws Exception {
+                if (aLong > 0) {
+                    //每次人员新增时，检测一下当前是否适合生成会议记录
+                    MeetingManager.getInstance().checkMeetingPublishAvaiablity();
+                }
+            }
+        }).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long integer) throws Exception {
                 long id = integer;

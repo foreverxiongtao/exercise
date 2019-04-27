@@ -2,6 +2,7 @@ package com.example.meeting;
 
 import com.example.library.base.BaseApplication;
 import com.example.library.utils.CoreUtils;
+import com.example.meeting.manager.MeetingManager;
 
 /**
  * author : desperado
@@ -15,5 +16,7 @@ public class MeetingApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         CoreUtils.init(this);
+        //检查当前的日期是否满足生成会议记录
+        MeetingManager.getInstance().checkMeetingPublishAvaiablity();
     }
 }

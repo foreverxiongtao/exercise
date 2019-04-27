@@ -30,7 +30,7 @@ class PersonListActivity : BaseMVPCompatActivity<PersonManagementPresenter, Pers
         rcv_person_list.layoutManager = LinearLayoutManager(this)
         mManagementAdapter!!.setOnLoadMoreListener(this, rcv_person_list)
         mManagementAdapter!!.setOnItemClickListener { adapter, view, position ->
-            if (position > 0) {
+            if (position >=0) {
                 val user = mManagementAdapter!!.getItem(position)
                 user?.let { showUserOperateDialog(it, position) }
             }
