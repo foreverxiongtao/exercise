@@ -95,6 +95,18 @@ public class MeetingManager {
                 public void accept(MeetingHistory meetingHistory) throws Exception {
                     LogUtils.e("success-----", meetingHistory.getId());
                 }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
+                    LogUtils.d(throwable.getLocalizedMessage());
+                }
+            }, new Action() {
+                @Override
+                public void run() throws Exception {
+                    LogUtils.d("");
+                    //未找到合适的人员，证明人员列表中的所有成员都已设置跳过，需要修改
+                    resetHostMeeting(GlobalConstant.VALUE_USER_ID_DEFAULT);
+                }
             }));
         } else {  //已经有人发布会议
             //1.先判断是否要开启新一轮的会议主持

@@ -31,7 +31,8 @@ class MainFragment : BaseMVPCompatFragment<MeetingNoticePresenter, MeetingNotice
 
 
     override fun getYesterdayAndTodayMeetinFaiure() {
-        tv_tomorrow_name.text = resources.getString(R.string.str_no_host)
+        tv_yesterday_name.text = resources.getString(R.string.str_no_host)
+        tv_today_name.text = resources.getString(R.string.str_no_host)
     }
 
     override fun getYesterdayAndTodayMeeting(meetings: MutableList<MeetingHistory>) {
@@ -59,8 +60,7 @@ class MainFragment : BaseMVPCompatFragment<MeetingNoticePresenter, MeetingNotice
     }
 
     override fun getTomorrowMeetingFailure() {
-        tv_yesterday_name.text = resources.getString(R.string.str_no_host)
-        tv_today_name.text = resources.getString(R.string.str_no_host)
+        tv_tomorrow_name.text = resources.getString(R.string.str_no_host)
     }
 
 
