@@ -8,6 +8,7 @@ import com.example.library.utils.TimeUtils;
 import com.example.meeting.constant.GlobalConstant;
 import com.example.meeting.db.AppDatabase;
 import com.example.meeting.model.entity.MeetingHistory;
+import com.example.meeting.model.entity.NotifyChangedEvent;
 import com.example.meeting.model.entity.User;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -15,6 +16,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * author : desperado
@@ -82,6 +84,7 @@ public class MeetingManager {
                         SPDataManager.saveLastMeetingHostId(user.getId()); //更新主持会议的用户
                         SPDataManager.saveNewestMeetingDate(currentTimeStamp);
                         AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
+                        EventBus.getDefault().post(new NotifyChangedEvent(NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD));
                         return meetingHistory;
                     } else {
                         return null;
@@ -108,6 +111,7 @@ public class MeetingManager {
                         SPDataManager.saveLastMeetingHostId(user.getId());
                         SPDataManager.saveNewestMeetingDate(currentTimeStamp);
                         AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
+                        EventBus.getDefault().post(new NotifyChangedEvent(NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD));
                         return meetingHistory;
                     } else {
                         return null;

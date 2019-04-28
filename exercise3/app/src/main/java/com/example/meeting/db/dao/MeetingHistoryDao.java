@@ -54,4 +54,11 @@ public interface MeetingHistoryDao {
      */
     @Query("select * from t_meeting_history as t inner join t_users as u on t.u_id = u.uid order by t.host_time desc limit:offset")
     Maybe<List<MeetingHistory>> getYesterdayAndTodayMeeting(int offset);
+
+    /***
+     * 获取会议记录总条数
+     * @return
+     */
+    @Query("delete  from t_meeting_history where id  =(select id  from t_meeting_history order by create_time  limit 1)")
+    void deleteOldestHistory();
 }

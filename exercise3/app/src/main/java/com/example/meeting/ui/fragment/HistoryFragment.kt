@@ -11,7 +11,6 @@ import com.example.meeting.R
 import com.example.meeting.adapter.MeetingHistoryAdapter
 import com.example.meeting.constant.GlobalConstant
 import com.example.meeting.contract.AbMeetingHistoryContract
-import com.example.meeting.manager.MeetingManager
 import com.example.meeting.model.MeetingHistoryModel
 import com.example.meeting.model.entity.MeetingHistory
 import com.example.meeting.model.entity.NotifyChangedEvent
@@ -94,9 +93,9 @@ class HistoryFragment : BaseMVPCompatFragment<MeetingHistoryPresenter, MeetingHi
         rcv_history_list.adapter = mMeetingHistoryAdapter
         rcv_history_list.layoutManager = LinearLayoutManager(mActivity)
         mMeetingHistoryAdapter!!.setOnLoadMoreListener(this, rcv_history_list)
-        tv_top_metting.setOnClickListener {
-            MeetingManager.getInstance().checkMeetingPublishAvaiablity()
-        }
+//        tv_top_metting.setOnClickListener {
+//            MeetingManager.getInstance().checkMeetingPublishAvaiablity()
+//        }
     }
 
     override fun initData() {
@@ -130,7 +129,13 @@ class HistoryFragment : BaseMVPCompatFragment<MeetingHistoryPresenter, MeetingHi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onPersonChange(event: NotifyChangedEvent) {
-
+        when {
+            event.state == NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD
+                    || event.state == NotifyChangedEvent.NotifyChangeEventConstant.OBJ_DELETE_HISTORY -> {
+                mPresenter.refreshMeetingHistoryCount()
+                mPresenter.refreshMeetingHistoryList()
+            }
+        }
     }
 
 }

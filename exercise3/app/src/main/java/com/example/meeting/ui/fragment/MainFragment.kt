@@ -11,9 +11,13 @@ import com.example.meeting.contract.AbMeetingNoticeContract
 import com.example.meeting.manager.SPDataManager
 import com.example.meeting.model.MeetingNoticeModel
 import com.example.meeting.model.entity.MeetingHistory
+import com.example.meeting.model.entity.NotifyChangedEvent
 import com.example.meeting.model.entity.User
 import com.example.meeting.presenter.MeetingNoticePresenter
 import kotlinx.android.synthetic.main.fragment_main.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  *    author : desperado
@@ -61,12 +65,31 @@ class MainFragment : BaseMVPCompatFragment<MeetingNoticePresenter, MeetingNotice
 
 
     override fun initData() {
+        EventBus.getDefault().register(this)
         super.initData()
         val lastMeetingHostId = SPDataManager.getLastMeetingHostId()
         when {
             SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT != lastMeetingHostId -> {
                 mPresenter.getYestodayAndTodayInfo()
                 mPresenter.getTomorrowMeetingInfo(lastMeetingHostId)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun notifyEventChanged(event: NotifyChangedEvent) {
+        if (event.state == NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD) {
+            val lastMeetingHostId = SPDataManager.getLastMeetingHostId()
+            when {
+                SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT != lastMeetingHostId -> {
+                    mPresenter.getYestodayAndTodayInfo()
+                    mPresenter.getTomorrowMeetingInfo(lastMeetingHostId)
+                }
             }
         }
     }

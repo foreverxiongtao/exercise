@@ -29,7 +29,10 @@ public class GlobalConstant {
     public static final int VALUE_INDEX_TODAY = 0;
     public static final int VALUE_INDEX_YESTERDAY = 1;
     public static final int VALUE_USER_ID_DEFAULT = 0;
-
+    public static final String KEY_TASK_SERVICE = "key_task_service";
+    public static final int VALUE_TASK_DEFAULT = -1;
+    public static final int ARGUMENT_DELETE_OLD_DATA= 1000;
+    public static final int VALUE_DATA_MAX_COUNT= 10000;
 
 
     public static String getNumStr(int number) {

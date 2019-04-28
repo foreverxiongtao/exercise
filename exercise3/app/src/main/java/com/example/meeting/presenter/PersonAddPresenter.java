@@ -5,9 +5,11 @@ import com.example.library.utils.LogUtils;
 import com.example.meeting.contract.AbPersonAddContract;
 import com.example.meeting.manager.MeetingManager;
 import com.example.meeting.model.PersonAddModel;
+import com.example.meeting.model.entity.NotifyChangedEvent;
 import com.example.meeting.model.entity.User;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * author : desperado

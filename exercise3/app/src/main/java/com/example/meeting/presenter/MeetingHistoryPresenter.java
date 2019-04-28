@@ -1,12 +1,14 @@
 package com.example.meeting.presenter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import com.example.library.utils.LogUtils;
+import com.example.meeting.MeetingApplication;
+import com.example.meeting.service.TaskService;
 import com.example.meeting.constant.GlobalConstant;
 import com.example.meeting.contract.AbMeetingHistoryContract;
 import com.example.meeting.model.MeetingHistoryModel;
 import com.example.meeting.model.entity.MeetingHistory;
-import com.example.meeting.model.entity.User;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
@@ -83,6 +85,12 @@ public class MeetingHistoryPresenter extends AbMeetingHistoryContract.AbMeetingH
             @Override
             public void accept(Integer totalPage) throws Exception {
                 mTotalPage = totalPage / GlobalConstant.VALUE_PAGING_DEFAULT + 1;  //获取总共的分页
+                //会议记录的条数大于要求设置的最大数，删除数据库中的以前的最旧的一条数据
+                if (totalPage > GlobalConstant.VALUE_DATA_MAX_COUNT) {
+                    Intent intent = new Intent(MeetingApplication.getContext(), TaskService.class);
+                    intent.putExtra(GlobalConstant.KEY_TASK_SERVICE, GlobalConstant.ARGUMENT_DELETE_OLD_DATA);
+                    MeetingApplication.getContext().startService(intent);
+                }
             }
         }, new Consumer<Throwable>() {
             @Override

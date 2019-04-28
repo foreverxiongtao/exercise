@@ -31,8 +31,9 @@ public class NotifyChangedEvent {
         return notifyObj;
     }
 
-   public static class NotifyChangeEventConstant {
+    public static class NotifyChangeEventConstant {
         public static final int OBJ_PERSON_ADD = 1;
+        public static final int OBJ_DELETE_HISTORY = 2;
         public static final int OBJ_PERSON_TOTAL_COUNT = 2;
     }
 }
