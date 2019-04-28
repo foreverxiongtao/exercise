@@ -35,18 +35,32 @@ public class MeetingNoticeModel extends BaseModel implements AbMeetingNoticeCont
 
             @Override
             public void subscribe(ObservableEmitter<User> e) throws Exception {
-                User firstUser = AppDatabase.getInstance().userDao().getAvaiableUserByUid(GlobalConstant.VALUE_IS_NOT_DELETE, lastMeetingHostId,
-                        GlobalConstant.VALUE_IS_NOT_SKIP);
-                if (firstUser != null) {
-                    e.onNext(firstUser);
-                } else {
-                    firstUser = AppDatabase.getInstance().userDao().getAvaiableUserByUid(GlobalConstant.VALUE_IS_NOT_DELETE, GlobalConstant.VALUE_USER_ID_DEFAULT,
+                //获取当前人数总条数
+                int personTotalCount = AppDatabase.getInstance().userDao().getPersonTotalCountDefault(GlobalConstant.VALUE_IS_NOT_DELETE);
+                if (personTotalCount > 0) {
+                    //查询本次是否有人能满足条件
+                    User firstUser = AppDatabase.getInstance().userDao().getAvaiableUserByUid(GlobalConstant.VALUE_IS_NOT_DELETE, lastMeetingHostId,
                             GlobalConstant.VALUE_IS_NOT_SKIP);
                     if (firstUser != null) {
                         e.onNext(firstUser);
                     } else {
-                        e.onError(new Throwable());
+                        //查看下一轮有人是否能满足条件
+                        firstUser = AppDatabase.getInstance().userDao().getAvaiableUserByUid(GlobalConstant.VALUE_IS_NOT_DELETE, GlobalConstant.VALUE_USER_ID_DEFAULT,
+                                GlobalConstant.VALUE_IS_NOT_SKIP);
+                        if (firstUser != null) {
+                            e.onNext(firstUser);
+                        } else {
+                            //所有人都不满足
+                            firstUser = AppDatabase.getInstance().userDao().getFirstUnavaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, lastMeetingHostId, GlobalConstant.VALUE_IS_SKIP);
+                            if (firstUser == null) {
+                                int tempHostId = GlobalConstant.VALUE_USER_ID_DEFAULT;
+                                firstUser = AppDatabase.getInstance().userDao().getFirstUnavaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, tempHostId, GlobalConstant.VALUE_IS_SKIP);
+                            }
+                            e.onNext(firstUser);
+                        }
                     }
+                } else {
+                    e.onError(new Throwable());
                 }
             }
         }).compose(RxHelper.<User>rxObservaleSchedulerHelper());

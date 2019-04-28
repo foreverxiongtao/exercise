@@ -105,7 +105,14 @@ public class MeetingManager {
                 public void run() throws Exception {
                     LogUtils.d("");
                     //未找到合适的人员，证明人员列表中的所有成员都已设置跳过，需要修改
-                    resetHostMeeting(GlobalConstant.VALUE_USER_ID_DEFAULT);
+                    AppDatabase.getInstance().userDao().getPersonTotalCount(GlobalConstant.VALUE_IS_NOT_DELETE).compose(RxHelper.<Integer>rxSchedulerHelper()).subscribe(new Consumer<Integer>() {
+                        @Override
+                        public void accept(Integer integer) throws Exception {
+                            if (integer > 0) {
+                                resetHostMeeting(GlobalConstant.VALUE_USER_ID_DEFAULT);
+                            }
+                        }
+                    });
                 }
             }));
         } else {  //已经有人发布会议

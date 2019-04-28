@@ -1,11 +1,9 @@
 package com.example.meeting.db.dao;
 
 import android.arch.persistence.room.*;
-import android.database.Cursor;
-import android.util.Log;
 import com.example.meeting.model.entity.User;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -35,6 +33,10 @@ public interface UserDao {
     Maybe<Integer> getPersonTotalCount(int deleteStatus);
 
 
+    @Query("select count(`no`) from t_users where is_delete=:deleteStatus")
+    Integer getPersonTotalCountDefault(int deleteStatus);
+
+
     /***
      * 插入用户
      * @param user
@@ -50,6 +52,15 @@ public interface UserDao {
      */
     @Query("select * from t_users  order by `no` desc limit 1 ")
     Maybe<User> getNewestNumber();
+
+
+    /**
+     * 获取当前最新的用户
+     *
+     * @return
+     */
+    @Query("select * from t_users  order by `no` desc limit 1 ")
+    User getNewestNumber2();
 
     /***
      * 修改用户信息
@@ -83,7 +94,7 @@ public interface UserDao {
      *
      * @return
      */
-    @Query("update t_users set  is_skip = :skipStauts where is_skip != :skipStauts and  uid between :startUid and :endUid ")
+    @Query("update t_users set  is_skip = :skipStauts where is_skip != :skipStauts and  uid > :startUid and uid<:endUid ")
     void resetSkipStatus(int skipStauts, int startUid, int endUid);
 
 
@@ -95,5 +106,22 @@ public interface UserDao {
     @Query("select * from t_users where is_delete =:deleteStatus and uid>:uid and is_skip =:notSkip order by `no` limit 1 ")
     User getAvaiableUserByUid(int deleteStatus, int uid, int notSkip);
 
+
+    /**
+     * 根据用户编号获取当前用户信息
+     *
+     * @return
+     */
+    @Query("select * from t_users  where `no`= :no ")
+    User getUserByNo(int no);
+
+
+    /**
+     * 获取能第一条不能满足主次会议的人员信息
+     *
+     * @return
+     */
+    @Query("select * from t_users where is_delete =:deleteStatus and uid>:uid and is_skip =:notSkip order by `no` limit 1 ")
+    User getFirstUnavaiableUser(int deleteStatus, int uid, int notSkip);
 
 }
