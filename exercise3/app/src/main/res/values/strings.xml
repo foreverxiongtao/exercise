@@ -8,6 +8,9 @@
     <string name="str_num_empty">编号不能为空</string>
     <string name="str_name_empty">名称不能为空</string>
     <string name="str_person_name">姓名</string>
+    <string name="str_person_name_format">姓名:%s</string>
+    <string name="str_person_no_format">编号:%s</string>
+    <string name="str_person_create_format">创建日期:%s</string>
     <string name="str_person_save">保存</string>
     <string name="str_insert_success">人员录入成功</string>
     <string name="str_insert_failure">人员录入失败，请重试</string>

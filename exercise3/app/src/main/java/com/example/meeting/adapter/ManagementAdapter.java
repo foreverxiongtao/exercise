@@ -1,6 +1,5 @@
 package com.example.meeting.adapter;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -9,8 +8,6 @@ import com.example.library.utils.TimeUtils;
 import com.example.meeting.R;
 import com.example.meeting.constant.GlobalConstant;
 import com.example.meeting.model.entity.User;
-
-import java.util.List;
 
 /**
  * author : desperado
@@ -30,14 +27,15 @@ public class ManagementAdapter extends BaseCompatAdapter<User, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, User item) {
         TextView tv_management_name = helper.getView(R.id.tv_management_name);
         if (!TextUtils.isEmpty(item.getName())) {
-            tv_management_name.setText(item.getName());
+            String name = String.format(mContext.getResources().getString(R.string.str_person_name_format), item.getName());
+            tv_management_name.setText(name);
         }
         TextView tv_management_no = helper.getView(R.id.tv_management_no);
-        tv_management_no.setText(GlobalConstant.getNumStr(item.getNo()));
-
+        String no = String.format(mContext.getResources().getString(R.string.str_person_no_format), GlobalConstant.getNumStr(item.getNo()));
+        tv_management_no.setText(no);
         TextView tv_management_date = helper.getView(R.id.tv_management_date);
-        tv_management_date.setText(TimeUtils.millis2String(item.getCreateTime()));
-
+        String date = String.format(mContext.getResources().getString(R.string.str_person_create_format), TimeUtils.millis2StringByCustomTime(item.getCreateTime()));
+        tv_management_date.setText(date);
         TextView tv_management_skip = helper.getView(R.id.tv_management_skip);
         if (item.getIsSkip() == GlobalConstant.VALUE_IS_SKIP) {
             tv_management_skip.setVisibility(View.VISIBLE);
