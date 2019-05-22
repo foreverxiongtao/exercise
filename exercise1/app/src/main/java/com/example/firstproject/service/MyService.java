@@ -22,7 +22,7 @@ import com.example.firstproject.R;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/24 下午11:55
- * desc   : 前台服务
+ * desc   : foreground service
  * version: 1.0
  */
 public class MyService extends Service {
@@ -38,20 +38,18 @@ public class MyService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(TAG, "onBind");
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand()");
         startForegroundNotification();
         return super.onStartCommand(intent, flags, startId);
     }
 
 
     /***
-     * 开启前台任务通知
+     * start foreground task notification
      */
     private void startForegroundNotification() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -61,7 +59,7 @@ public class MyService extends Service {
         remoteViews.setOnClickPendingIntent(R.id.tv_notify_next, getPendIntentWithRequestCode(REQUEST_CODE_NEXT_SONG));
         String NOTIFICATION_CHANNEL_ID = getString(R.string.str_default_channel);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //设定的通知渠道名称以及通知的重要程度，并构建通知渠道
+            //Set the notification channel name and the importance of the notification, and build a notification channel
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, getString(R.string.str_channel_name), NotificationManager.IMPORTANCE_LOW);
             notificationChannel.setDescription(getString(R.string.str_channel_describtion));
             notificationChannel.enableLights(true);
@@ -71,24 +69,21 @@ public class MyService extends Service {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-//        //在创建的通知渠道上发送通知
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        builder.setSmallIcon(R.mipmap.ic_launcher);  //通知图标
-//        builder.setContentTitle(getString(R.string.str_content_title)); //通知标题
-//        builder.setContentText(getString(R.string.str_content_text)); //通知内容
-//        builder.setContentInfo(getString(R.string.str_content_info));       //设置服务内容
+        builder.setSmallIcon(R.mipmap.ic_launcher);  //icon
+//        builder.setContentTitle(getString(R.string.str_content_title)); //title
+//        builder.setContentText(getString(R.string.str_content_text)); // content
         builder.setContent(remoteViews);
-//        builder.setWhen(System.currentTimeMillis());  //设置通知时间
+//        builder.setWhen(System.currentTimeMillis());  //time
 //        builder.setContentIntent(getPendIntentWithRequestCode(REQUEST_CODE_NORMAL));
 
         Notification notification = builder.build();
-        //将服务置于启动状态 NOTIFICATION_ID指的是创建的通知的ID
         startForeground(FOREGROUND_ID, notification);
     }
 
 
     /***
-     * 获取延迟意图实例对象
+     * get pendintent with request code
      * @param requestCode
      * @return
      */
@@ -102,8 +97,7 @@ public class MyService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy()");
         super.onDestroy();
-        stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
+        stopForeground(true);//
     }
 }

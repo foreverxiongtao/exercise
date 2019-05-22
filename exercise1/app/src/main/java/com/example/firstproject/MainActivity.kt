@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  *    author : desperado
  *    e-mail : foreverxiongtao@sina.com
  *    date   : 2019/4/25 上午12:01
- *    desc   : 主页面
+ *    desc   : main activity
  *    version: 1.0
  */
 class MainActivity : AppCompatActivity() {
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * method:启动服务
+     * method:start service
      */
     private fun startMusicService() {
         val intent = Intent(this, MyService::class.java)
