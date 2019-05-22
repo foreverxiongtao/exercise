@@ -4,52 +4,51 @@ import android.support.annotation.NonNull;
 import com.example.library.manager.RxManager;
 
 /**
- * Created by FKQ on 2017/12/19  11:15
- * *
- * Email: Hacken_F@163.com
- * *
- * Dec:
- * *
+ * author : desperado
+ * e-mail : foreverxiongtao@sina.com
+ * date   : 2019/4/25 下午11:28
+ * desc   : BasePresenter
+ * version: 1.0
  */
 
 public abstract class BasePresenter<M, V> {
 
-    public M mIModel;
-    public V mIView;
+    public M mModel;
+    public V mView;
     protected RxManager mRxManager = new RxManager();
 
     /**
-     * 返回presenter想持有的Model引用
+     * Returns the Model reference that the presenter wants to hold
      *
-     * @return presenter持有的Model引用
+     * @return Model reference held by presenter
      */
     public abstract M getModel();
 
     /**
-     * 绑定IModel和IView的引用
+     * 绑定mModel和mView的引用
      *
      * @param m model
      * @param v view
      */
     public void attachMV(@NonNull M m, @NonNull V v) {
-        this.mIModel = m;
-        this.mIView = v;
+        this.mModel = m;
+        this.mView = v;
         this.onStart();
     }
 
     /**
-     * 解绑IModel和IView
+     * Untie mModel and mView
      */
     public void detachMV() {
         mRxManager.unSubscribe();
-        mIView = null;
-        mIModel = null;
+        mView = null;
+        mModel = null;
     }
 
     /**
-     * IView和IModel绑定完成立即执行
+     * mView and mModel bindings are completed immediately
      * <p>
-     * 实现类实现绑定完成后的逻辑,例如数据初始化等,界面初始化, 更新等
+     * Implement the logic after the class implementation is complete, such as data initialization, interface initialization, update, etc.
      */
     public abstract void onStart();
 }

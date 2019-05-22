@@ -17,7 +17,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 上午12:15
- * desc   :人员管理层现层
+ * desc   :person management presenter
  * version: 1.0
  */
 public class PersonManagementPresenter extends AbPersonManagementContract.AbPersonManagementPresenter {
@@ -42,90 +42,90 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
     }
 
     /***
-     * 刷新人员列表
+     * refresh user list
      */
     @Override
     public void refreshUserList() {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
         mCurrentPage = 0;
-        mRxManager.register(mIModel.getUsers(mCurrentPage).subscribe(new Consumer<List<User>>() {
+        mRxManager.register(mModel.getUsers(mCurrentPage).subscribe(new Consumer<List<User>>() {
             @Override
             public void accept(List<User> list) throws Exception {
                 if (list != null && !list.isEmpty()) {
                     mCurrentPage++;
-                    mIView.refreshUserListSuccess(list);
+                    mView.refreshUserListSuccess(list);
                 } else {
-                    mIView.getUserListrEmpty();
+                    mView.getUserListrEmpty();
                 }
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mIView.refreshUserListFailure(throwable.getMessage());
+                mView.refreshUserListFailure(throwable.getMessage());
             }
         }, new Action() {
             @Override
             public void run() throws Exception {
-                mIView.getUserListrEmpty();
-                LogUtils.d("*******************");
+                mView.getUserListrEmpty();
+                LogUtils.d("refreshUserList failure");
             }
         }));
     }
 
     @Override
     public void refreshUserTotalCount() {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
-        mRxManager.register(mIModel.getPersonTotalCount().subscribe(new Consumer<Integer>() {
+        mRxManager.register(mModel.getPersonTotalCount().subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer totalPage) throws Exception {
-                mTotalPage = totalPage / GlobalConstant.VALUE_PAGING_DEFAULT + 1;  //获取总共的分页
+                mTotalPage = totalPage / GlobalConstant.VALUE_PAGING_DEFAULT + 1;  //get the person total count
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mIView.refreshUserListFailure(throwable.getMessage());
+                mView.refreshUserListFailure(throwable.getMessage());
             }
         }));
     }
 
 
     /**
-     * 分页加载人员列表
+     * load more for user list
      */
     @Override
     public void loadMoreUserList() {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
         if (mTotalPage >= mCurrentPage && !isLoading) {
             isLoading = true;
-            mRxManager.register(mIModel.getUsers(mCurrentPage).subscribe(new Consumer<List<User>>() {
+            mRxManager.register(mModel.getUsers(mCurrentPage).subscribe(new Consumer<List<User>>() {
                 @Override
                 public void accept(List<User> list) throws Exception {
                     isLoading = false;
                     if (list != null && !list.isEmpty()) {
                         mCurrentPage++;
-                        mIView.moreUserListSuccess(list);
+                        mView.moreUserListSuccess(list);
                     } else {
-                        mIView.showNoMoreData();
+                        mView.showNoMoreData();
                     }
                 }
             }, new Consumer<Throwable>() {
                 @Override
                 public void accept(Throwable throwable) throws Exception {
                     isLoading = false;
-                    mIView.moreUserListFailure(throwable.getMessage());
+                    mView.moreUserListFailure(throwable.getMessage());
                 }
             }, new Action() {
                 @Override
                 public void run() throws Exception {
                     isLoading = false;
-                    mIView.showNoMoreData();
-                    LogUtils.d("*******************");
+                    mView.showNoMoreData();
+                    LogUtils.d("loadMoreUserList failed");
                 }
             }));
         }
@@ -133,44 +133,44 @@ public class PersonManagementPresenter extends AbPersonManagementContract.AbPers
 
 
     /**
-     * 更改用户的删除状态
+     * modify user delete status
      *
-     * @param user 人员
+     * @param user peronson
      */
     @Override
     public void deletePerson(User user, final int position) {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
-        user.setIsDelete(GlobalConstant.VALUE_IS_DELETE);  //设置当前的用户删除状态
-        mRxManager.register(mIModel.updatePerson(user).subscribe(new Consumer<Integer>() {
+        user.setIsDelete(GlobalConstant.VALUE_IS_DELETE);  //Set the current user deletion status
+        mRxManager.register(mModel.updatePerson(user).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer row) throws Exception {
-                mIView.onDeletePersonSuccess(position);
+                mView.onDeletePersonSuccess(position);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mIView.onDeletePersonFailure();
+                mView.onDeletePersonFailure();
             }
         }));
     }
 
     @Override
     public void skipMeeting(final User user, final int position) {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
-        user.setIsSkip(GlobalConstant.VALUE_IS_SKIP);  //设置当前的用户的状态为跳过状态
-        mRxManager.register(mIModel.updatePerson(user).subscribe(new Consumer<Integer>() {
+        user.setIsSkip(GlobalConstant.VALUE_IS_SKIP);  //Set the current user's status to skip status
+        mRxManager.register(mModel.updatePerson(user).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer row) throws Exception {
-                mIView.onSkipMeetingSuccess(user, position);
+                mView.onSkipMeetingSuccess(user, position);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mIView.onSkipMeetingFailure();
+                mView.onSkipMeetingFailure();
             }
         }));
     }

@@ -13,7 +13,7 @@ import com.example.meeting.model.entity.User;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 上午12:12
- * desc   : 管理人员数据源
+ * desc   : person management datasource
  * version: 1.0
  */
 public class ManagementAdapter extends BaseCompatAdapter<User, BaseViewHolder> {

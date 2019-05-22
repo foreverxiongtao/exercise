@@ -18,7 +18,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午11:34
- * desc   :会议通知
+ * desc   :meeting notice model
  * version: 1.0
  */
 public class MeetingNoticeModel extends BaseModel implements AbMeetingNoticeContract.IMeetingNoticeModel {
@@ -35,22 +35,22 @@ public class MeetingNoticeModel extends BaseModel implements AbMeetingNoticeCont
 
             @Override
             public void subscribe(ObservableEmitter<User> e) throws Exception {
-                //获取当前人数总条数
+                //Get the total number of current people
                 int personTotalCount = AppDatabase.getInstance().userDao().getPersonTotalCountDefault(GlobalConstant.VALUE_IS_NOT_DELETE);
                 if (personTotalCount > 0) {
-                    //查询本次是否有人能满足条件
+                    //Check if anyone can meet the conditions this time
                     User firstUser = AppDatabase.getInstance().userDao().getAvaiableUserByUid(GlobalConstant.VALUE_IS_NOT_DELETE, lastMeetingHostId,
                             GlobalConstant.VALUE_IS_NOT_SKIP);
                     if (firstUser != null) {
                         e.onNext(firstUser);
                     } else {
-                        //查看下一轮有人是否能满足条件
+                        //See if someone can meet the conditions in the next round
                         firstUser = AppDatabase.getInstance().userDao().getAvaiableUserByUid(GlobalConstant.VALUE_IS_NOT_DELETE, GlobalConstant.VALUE_USER_ID_DEFAULT,
                                 GlobalConstant.VALUE_IS_NOT_SKIP);
                         if (firstUser != null) {
                             e.onNext(firstUser);
                         } else {
-                            //所有人都不满足
+                            //Everyone is not satisfied
                             firstUser = AppDatabase.getInstance().userDao().getFirstUnavaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, lastMeetingHostId, GlobalConstant.VALUE_IS_SKIP);
                             if (firstUser == null) {
                                 int tempHostId = GlobalConstant.VALUE_USER_ID_DEFAULT;

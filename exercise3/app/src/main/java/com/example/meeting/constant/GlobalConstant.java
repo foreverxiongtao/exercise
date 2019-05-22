@@ -4,7 +4,7 @@ package com.example.meeting.constant;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/25 下午11:07
- * desc   :全局常量
+ * desc   :global constant
  * version: 1.0
  */
 public class GlobalConstant {

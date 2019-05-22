@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 上午9:55
- * desc   : 人员表实体
+ * desc   : person  entity
  * version: 1.0
  */
 
@@ -20,27 +20,27 @@ public class User {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "uid")
-    private int id;   // 编号
+    private int id;
 
     @ColumnInfo(name = "no")
     @NonNull
-    private int no;    //工号
+    private int no;
 
     @ColumnInfo(name = "name")
     @NonNull
-    private String name;  //姓名
+    private String name;
 
     @ColumnInfo(name = "create_time")
     @NonNull
-    private long createTime;  //创建时间
+    private long createTime;
 
     @ColumnInfo(name = "is_delete")
     @NonNull
-    private int isDelete;  //是否删除
+    private int isDelete;  //delete status
 
     @ColumnInfo(name = "is_skip")
     @NonNull
-    private int isSkip;  //是否跳过
+    private int isSkip;  //skip status
 
 
 

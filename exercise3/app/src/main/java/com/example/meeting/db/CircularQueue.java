@@ -3,7 +3,7 @@ package com.example.meeting.db;
 public class CircularQueue<E> {
     private int size;
 
-    //指针
+    //pointer
     private Node<E> node;
 
     private Node<E> first;

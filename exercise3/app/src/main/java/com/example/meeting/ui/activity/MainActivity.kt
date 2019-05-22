@@ -21,7 +21,7 @@ import java.util.ArrayList
  *    author : desperado
  *    e-mail : foreverxiongtao@sina.com
  *    date   : 2019/4/25 下午9:41
- *    desc   :主页面
+ *    desc   :main activity
  *    version: 1.0
  */
 class MainActivity : BaseActivity() {
@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
                 )
             )
         )
-        //vp 和 tablayout 双向绑定
+        //viewpage  and  tablayout bind
         vp_main_tab.addOnPageChangeListener(object : TabLayout.TabLayoutOnPageChangeListener(tl_main_tab) {
 
         })
@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
         tl_main_tab.addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(vp_main_tab) {
 
         })
-        //设置fragment数据源
+        //set  fragment data
         val vpPageAdapter = MainMeetingPageAdapter(supportFragmentManager)
         val mainFragment = MainFragment.newInstance(GlobalConstant.ARGUMENT_CODE_MAIN)
         val historyFragment = HistoryFragment.newInstance(GlobalConstant.ARGUMENT_CODE_HISTORY)
@@ -87,9 +87,9 @@ class MainActivity : BaseActivity() {
 
 
     /***
-     * 设置自定义tab item
-     * @param name 名称
-     * @param iconID 图标id
+     * set custom tab item
+     * @param name  tab name
+     * @param iconID tab icon
      */
     private fun getCustomTabItem(name: String, iconID: Int): View {
         val newtab = LayoutInflater.from(this).inflate(R.layout.item_custom_tab, null)

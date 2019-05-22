@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.EventBus;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/28 上午11:48
- * desc   : 自定义的任务处理服务
+ * desc   : customer task service handler
  * version: 1.0
  */
 public class TaskService extends IntentService {

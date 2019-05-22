@@ -14,14 +14,14 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午1:24
- * desc   :会议历史db层
+ * desc   : meeting history
  * version: 1.0
  */
 @Dao
 public interface MeetingHistoryDao {
 
     /***
-     * 插入用户
+     * add user
      * @param meetingHistory
      * @return
      */
@@ -30,7 +30,7 @@ public interface MeetingHistoryDao {
 
 
     /***
-     * 分页获取会议记录
+     * page to get meeting history
      * @param offset
      * @param defaultPaging
      * @return
@@ -40,7 +40,7 @@ public interface MeetingHistoryDao {
 
 
     /***
-     * 获取会议记录总条数
+     * get history total count
      * @return
      */
     @Query("select count(`id`) from t_meeting_history")
@@ -48,7 +48,7 @@ public interface MeetingHistoryDao {
 
 
     /***
-     * 获取昨天和今天会议的记录
+     * Get records of yesterday and today's meetings
      * @param offset
      * @return
      */
@@ -56,7 +56,7 @@ public interface MeetingHistoryDao {
     Maybe<List<MeetingHistory>> getYesterdayAndTodayMeeting(int offset);
 
     /***
-     * 获取会议记录总条数
+     * Get the total number of meeting minutes
      * @return
      */
     @Query("delete  from t_meeting_history where id  =(select id  from t_meeting_history order by create_time  limit 1)")

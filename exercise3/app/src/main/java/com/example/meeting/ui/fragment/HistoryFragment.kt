@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.ThreadMode
  *    author : desperado
  *    e-mail : foreverxiongtao@sina.com
  *    date   : 2019/4/25 下午11:14
- *    desc   :会议历史页面
+ *    desc   :meeting history
  *    version: 1.0
  */
 class HistoryFragment : BaseMVPCompatFragment<MeetingHistoryPresenter, MeetingHistoryModel>(),

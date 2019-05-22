@@ -12,7 +12,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 上午12:08
- * desc   : adapter基类
+ * desc   : base adapter
  * version: 1.0
  */
 
@@ -36,6 +36,6 @@ public abstract class BaseCompatAdapter<T, K extends BaseViewHolder> extends Bas
     private void init() {
         setLoadMoreView(new RvLoadMoreView());
         setEnableLoadMore(true);
-        openLoadAnimation();//开启默认动画载入（仅开启加载新item时开启动画）
+        openLoadAnimation();//Turn on default animation loading (only enable animation when opening new item)
     }
 }

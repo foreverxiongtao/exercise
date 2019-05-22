@@ -9,7 +9,7 @@ import com.example.meeting.R;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/25 下午10:32
- * desc   :主页面数据适配器
+ * desc   : main data source
  * version: 1.0
  */
 

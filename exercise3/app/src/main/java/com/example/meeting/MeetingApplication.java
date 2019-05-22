@@ -16,7 +16,7 @@ public class MeetingApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         CoreUtils.init(this);
-        //检查当前的日期是否满足生成会议记录
+        //Check if the current date meets the generated meeting record
         MeetingManager.getInstance().checkMeetingPublishAvaiablity();
     }
 }

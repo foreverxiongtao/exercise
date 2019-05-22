@@ -16,7 +16,7 @@ import com.example.meeting.model.entity.User;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 上午10:13
- * desc   :room数据库实体类
+ * desc   :Room database entity class
  * version: 1.0
  */
 @Database(entities = {User.class, MeetingHistory.class}, version = 2)
@@ -26,13 +26,13 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase mAppDatabase;
 
-    public abstract UserDao userDao();   //获取userdao层
+    public abstract UserDao userDao();   //get user dao
 
-    public abstract MeetingHistoryDao meetingHistoryDao(); //会议历史
+    public abstract MeetingHistoryDao meetingHistoryDao(); //meeting history
 
 
     /***
-     * AppDatabase 比较消耗资源，所以这里采用单例方式来获取
+     * AppDatabase More resource consumption, so here is a singleton method to get
      * @return
      */
     public static AppDatabase getInstance() {
@@ -43,16 +43,16 @@ public abstract class AppDatabase extends RoomDatabase {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {
                             super.onCreate(db);
-                            LogUtils.d(TAG, "**********onCreate*********");
+                            LogUtils.d(TAG, "AppDatabase onCreate");
                         }
 
                         @Override
                         public void onOpen(@NonNull SupportSQLiteDatabase db) {
                             super.onOpen(db);
-                            LogUtils.d(TAG, "**********onOpen*********");
+                            LogUtils.d(TAG, "AppDatabase onOpen");
                         }
-                    }).allowMainThreadQueries()                 //是否允许在祝线程进行查询
-                            .fallbackToDestructiveMigration()  //迁移数据库如果发生错误，将会重新创建数据库，而不是发生崩溃
+                    }).allowMainThreadQueries()                 //Whether to allow the thread to query
+                            .fallbackToDestructiveMigration()  //If the database is migrated, an error will occur and the database will be recreated instead of crashing.
                             .build();
                 }
             }

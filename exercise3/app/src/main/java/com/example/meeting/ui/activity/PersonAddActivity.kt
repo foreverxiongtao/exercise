@@ -19,25 +19,12 @@ import org.greenrobot.eventbus.EventBus
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/25 下午11:28
- * desc   :人员新增页面
+ * desc   :person add
  * version: 1.0
  */
 class PersonAddActivity :
     BaseMVPCompatActivity<AbPersonAddContract.AbPersonAddPresenter, AbPersonAddContract.IPersonAddModel>(),
     View.OnClickListener, AbPersonAddContract.IPersonalAddView {
-//    }
-
-    //    override fun onGetNewestNumberEmpty() {
-//        var numStr = GlobalConstant.getNumStr(1)
-//        et_person_add_num.setText("$numStr")
-//    }
-//
-//    override fun onGetNewestNumberFailure(message: String?) {
-//
-//    override fun onGetNewestNumberSuccess(user: User) {
-//        var numStr = GlobalConstant.getNumStr(user.no + 1)
-//        et_person_add_num.setText("$numStr")
-//    }
 
     override fun hideWaitDialog() {
         hideProgressDialog()
@@ -53,7 +40,7 @@ class PersonAddActivity :
 
     override fun onSavePersonSuccess(user: User) {
         ToastUtils.showShort(getString(R.string.str_insert_success))
-        SPDataManager.saveNewestUserId(user.no)  //保存最新一个人员的id
+        SPDataManager.saveNewestUserId(user.no)  //Save the id of the latest person
         finish()
     }
 
@@ -70,12 +57,12 @@ class PersonAddActivity :
 
     override fun initData() {
         super.initData()
-//        mPresenter.getNewestNumber()
 
-        //自动获取最新的员工编号
+        //Automatically get the latest employee number
         val newestUserId = SPDataManager.getNewestUserId()
         when {
-            newestUserId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT -> {   //第一次新增
+            newestUserId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT -> {
+                //first add
                 var numStr = GlobalConstant.getNumStr(1)
                 et_person_add_num.setText("$numStr")
             }
@@ -99,7 +86,7 @@ class PersonAddActivity :
 
 
     /***
-     * 保存人员到db
+     * save person to db
      */
     private fun savePerson() {
         val num = et_person_add_num.text.toString()
@@ -113,12 +100,12 @@ class PersonAddActivity :
             return
         }
         val user = User()
-        user.createTime = System.currentTimeMillis() //设置当前的创建
+        user.createTime = System.currentTimeMillis() //set current time
         user.name = name
         val text = et_person_add_num.text.toString().substring(GlobalConstant.PRE_USER_NUMBER.length)
         user.no = text.toInt()
-        user.isSkip = GlobalConstant.VALUE_IS_NOT_SKIP   //默认是不跳过
-        user.isDelete = GlobalConstant.VALUE_IS_NOT_DELETE //默认是不删除
+        user.isSkip = GlobalConstant.VALUE_IS_NOT_SKIP   //default is not skip
+        user.isDelete = GlobalConstant.VALUE_IS_NOT_DELETE //default is not delete
         mPresenter.saveUser(user)
     }
 }

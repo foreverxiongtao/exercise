@@ -14,7 +14,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午3:52
- * desc   : 历史记录
+ * desc   : meeting history contract
  * version: 1.0
  */
 public interface AbMeetingHistoryContract {
@@ -25,15 +25,15 @@ public interface AbMeetingHistoryContract {
 
         public abstract void refreshMeetingHistoryCount();
 
-        public abstract void loadMoreMeetingHistoryList(); //分页加载更多
+        public abstract void loadMoreMeetingHistoryList(); //page load more
 
     }
 
     interface IMeetingHistoryModel extends IBaseModel {
 
-        Maybe<List<MeetingHistory>> getMeetingHistory(int page); //分页获取历史记录
+        Maybe<List<MeetingHistory>> getMeetingHistory(int page); //page meeting history
 
-        Maybe<Integer> getMeetingHistoryTotalCount();  //获取历史记录总条数
+        Maybe<Integer> getMeetingHistoryTotalCount();  //get meeting history count
     }
 
     interface IMeetingHistoryView extends IBaseView {
@@ -48,13 +48,13 @@ public interface AbMeetingHistoryContract {
         void moreMeetingHistoryFailure(String message);
 
         /**
-         * 显示没有更多数据
+         * no more data
          */
         void showNoMoreData();
 
 
         /***
-         * 历史记录为空
+         * history list empty
          */
         void getHistoryListEmpty();
     }

@@ -12,7 +12,7 @@ import io.reactivex.*;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 下午12:37
- * desc   :人员新增model层
+ * desc   :person add model
  * version: 1.0
  */
 public class PersonAddModel extends BaseModel implements AbPersonAddContract.IPersonAddModel {

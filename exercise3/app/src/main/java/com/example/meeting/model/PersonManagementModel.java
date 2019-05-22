@@ -17,7 +17,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 上午12:21
- * desc   : 人员管理数层
+ * desc   : person management model
  * version: 1.0
  */
 public class PersonManagementModel extends BaseModel implements AbPersonManagementContract.IPersonManagementModel {

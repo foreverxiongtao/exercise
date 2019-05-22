@@ -12,7 +12,7 @@ import io.reactivex.Observable;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 下午12:28
- * desc   :人员新增通信层
+ * desc   :person add contract
  * version: 1.0
  */
 public interface AbPersonAddContract {
@@ -33,12 +33,6 @@ public interface AbPersonAddContract {
     }
 
     interface IPersonalAddView extends IBaseView {
-
-//        void onGetNewestNumberSuccess(User user);
-
-//        void onGetNewestNumberFailure(String message);
-
-//        void onGetNewestNumberEmpty();
 
         void onSavePersonSuccess(User user);
 

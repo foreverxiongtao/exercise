@@ -16,7 +16,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午3:58
- * desc   :会议历史
+ * desc   :meeting history model
  * version: 1.0
  */
 public class MeetingHistoryModel extends BaseModel implements AbMeetingHistoryContract.IMeetingHistoryModel {

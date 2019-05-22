@@ -4,7 +4,7 @@ package com.example.meeting.model.entity;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 下午11:48
- * desc   : 事件通知基类
+ * desc   : notification change event entity
  * version: 1.0
  */
 

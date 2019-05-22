@@ -1,6 +1,5 @@
 package com.example.meeting.manager;
 
-import android.os.SystemClock;
 import com.example.library.helper.RxHelper;
 import com.example.library.manager.RxManager;
 import com.example.library.utils.LogUtils;
@@ -11,7 +10,6 @@ import com.example.meeting.model.entity.MeetingHistory;
 import com.example.meeting.model.entity.NotifyChangedEvent;
 import com.example.meeting.model.entity.User;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -22,7 +20,7 @@ import org.greenrobot.eventbus.EventBus;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午6:39
- * desc   : 会议发布管理类
+ * desc   : meeting publish manager
  * version: 1.0
  */
 public class MeetingManager {
@@ -47,7 +45,7 @@ public class MeetingManager {
 
 
     /**
-     * 检查当天是否满足会议发布
+     * Check if the meeting is released on the day
      */
     public void checkMeetingPublishAvaiablity() {
         long newestMeetingDate = SPDataManager.getNewestMeetingDate();
@@ -55,7 +53,7 @@ public class MeetingManager {
             publishMeeting();
         } else {
             int result = TimeUtils.compareDate(System.currentTimeMillis(), newestMeetingDate);
-            if (result == 1) {  //当前的日期比上一次保存的日期大
+            if (result == 1) {  //The current date is larger than the last saved date
                 publishMeeting();
             }
         }
@@ -63,14 +61,14 @@ public class MeetingManager {
 
 
     /***
-     * 发布会议
+     * publish meeting
      */
     public void publishMeeting() {
 
 
-        //获取上一次主持会议的用户
+        //Get the user who last hosted the meeting
         final int lastMeetingHostId = SPDataManager.getLastMeetingHostId();
-        if (lastMeetingHostId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT) { //第一次会议
+        if (lastMeetingHostId == SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT) { //first meeting
             Maybe<User> firstUser = AppDatabase.getInstance().userDao().getAvaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, GlobalConstant.VALUE_USER_ID_DEFAULT, GlobalConstant.VALUE_IS_NOT_SKIP);
             mManager.register(firstUser.compose(RxHelper.<User>rxSchedulerHelper()).observeOn(Schedulers.io()).map(new Function<User, MeetingHistory>() {
                 @Override
@@ -79,9 +77,9 @@ public class MeetingManager {
                     MeetingHistory meetingHistory = new MeetingHistory();
                     meetingHistory.setHostTime(currentTimeStamp);
                     meetingHistory.setUserId(user.getId());
-                    long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//插入历史会议
+                    long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//inser meeting history record
                     if (row > 0) {
-                        SPDataManager.saveLastMeetingHostId(user.getId()); //更新主持会议的用户
+                        SPDataManager.saveLastMeetingHostId(user.getId()); //update user id of the host meeting
                         SPDataManager.saveNewestMeetingDate(currentTimeStamp);
                         AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
                         EventBus.getDefault().post(new NotifyChangedEvent(NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD));
@@ -93,7 +91,7 @@ public class MeetingManager {
             }).subscribe(new Consumer<MeetingHistory>() {
                 @Override
                 public void accept(MeetingHistory meetingHistory) throws Exception {
-                    LogUtils.e("success-----", meetingHistory.getId());
+                    LogUtils.e("publishMeeting success", meetingHistory.getId());
                 }
             }, new Consumer<Throwable>() {
                 @Override
@@ -103,8 +101,7 @@ public class MeetingManager {
             }, new Action() {
                 @Override
                 public void run() throws Exception {
-                    LogUtils.d("");
-                    //未找到合适的人员，证明人员列表中的所有成员都已设置跳过，需要修改
+                    //No suitable person found, all members in the certifier list have been set to skip and need to be modified
                     AppDatabase.getInstance().userDao().getPersonTotalCount(GlobalConstant.VALUE_IS_NOT_DELETE).compose(RxHelper.<Integer>rxSchedulerHelper()).subscribe(new Consumer<Integer>() {
                         @Override
                         public void accept(Integer integer) throws Exception {
@@ -115,8 +112,8 @@ public class MeetingManager {
                     });
                 }
             }));
-        } else {  //已经有人发布会议
-            //1.先判断是否要开启新一轮的会议主持
+        } else {  //Someone has already released a meeting
+            //1.First determine whether you want to start a new round of conference hosting
             Maybe<User> firstUser = AppDatabase.getInstance().userDao().getAvaiableUser(GlobalConstant.VALUE_IS_NOT_DELETE, lastMeetingHostId, GlobalConstant.VALUE_IS_NOT_SKIP);
             mManager.register(firstUser.compose(RxHelper.<User>rxSchedulerHelper()).observeOn(Schedulers.io()).map(new Function<User, MeetingHistory>() {
                 @Override
@@ -125,11 +122,11 @@ public class MeetingManager {
                     MeetingHistory meetingHistory = new MeetingHistory();
                     meetingHistory.setHostTime(currentTimeStamp);
                     meetingHistory.setUserId(user.getId());
-                    long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//插入历史会议
+                    long row = AppDatabase.getInstance().meetingHistoryDao().insertUsers(meetingHistory);//inser meeting history record
                     if (row > 0) {
                         SPDataManager.saveLastMeetingHostId(user.getId());
                         SPDataManager.saveNewestMeetingDate(currentTimeStamp);
-                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //更新区间段的用户跳过状态，模拟跳过功能
+                        AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId, user.getId());  //Update the user skip state of the interval segment, simulate skip function
                         EventBus.getDefault().post(new NotifyChangedEvent(NotifyChangedEvent.NotifyChangeEventConstant.OBJ_PERSON_ADD));
                         return meetingHistory;
                     } else {
@@ -139,7 +136,7 @@ public class MeetingManager {
             }).subscribe(new Consumer<MeetingHistory>() {
                 @Override
                 public void accept(MeetingHistory meetingHistory) throws Exception {
-                    LogUtils.e(TAG, "success-----", meetingHistory.getId());
+                    LogUtils.e(TAG, "publishMeeting success", meetingHistory.getId());
                 }
             }, new Consumer<Throwable>() {
                 @Override
@@ -150,8 +147,8 @@ public class MeetingManager {
             }, new Action() {
                 @Override
                 public void run() throws Exception {
-                    LogUtils.e(TAG, "***************************run");
-                    //2.开启新一轮的值日主持
+                    LogUtils.e(TAG, "publishMeeting run");
+                    //2.Open a new round of value hosting
                     resetHostMeeting(lastMeetingHostId);
                 }
             }));
@@ -159,7 +156,7 @@ public class MeetingManager {
     }
 
     /***
-     * 重置会议发布状态
+     * Reset meeting release status
      * @param lastMeetingHostId
      */
     private void resetHostMeeting(final int lastMeetingHostId) {
@@ -168,7 +165,7 @@ public class MeetingManager {
             public void accept(Class<Void> voidClass) throws Exception {
                 AppDatabase.getInstance().userDao().resetSkipStatus(GlobalConstant.VALUE_IS_NOT_SKIP, lastMeetingHostId);
                 SPDataManager.saveLastMeetingHostId(SPDataManager.SPDataConstant.VALUE_LAST_MEETING_HOST_ID_DEFAULT); //还原上一次主次会议的用户标示
-                publishMeeting();  //开启新一轮的会议主持
+                publishMeeting();  //Open a new round of conference hosting
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -180,7 +177,7 @@ public class MeetingManager {
 
 
     /***
-     * 将start-end 之间的人员is_skip 状态调整，从而模拟本次已跳过
+     * Adjust the person is_skip state between start-end to simulate this skipped
      * @param startUid
      * @param endUid
      */

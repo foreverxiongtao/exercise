@@ -11,14 +11,14 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 上午9:56
- * desc   : 用户dao层
+ * desc   : user dao
  * version: 1.0
  */
 @Dao
 public interface UserDao {
 
     /**
-     * 获取所有的用户(未删除)
+     * get all users which is not deleted(未删除)
      *
      * @param deleteStatus
      * @param offset
@@ -38,7 +38,7 @@ public interface UserDao {
 
 
     /***
-     * 插入用户
+     * add user
      * @param user
      * @return
      */
@@ -46,7 +46,7 @@ public interface UserDao {
     Long insertUsers(User user);
 
     /**
-     * 获取当前最新的用户
+     * Get the latest users
      *
      * @return
      */
@@ -55,7 +55,7 @@ public interface UserDao {
 
 
     /**
-     * 获取当前最新的用户
+     * Get the latest users
      *
      * @return
      */
@@ -63,7 +63,7 @@ public interface UserDao {
     User getNewestNumber2();
 
     /***
-     * 修改用户信息
+     * modify user info
      * @param user
      * @return
      */
@@ -72,7 +72,7 @@ public interface UserDao {
 
 
     /**
-     * 重置所有用户的跳过状态
+     * Reset skip status for all users
      *
      * @return
      */
@@ -81,7 +81,7 @@ public interface UserDao {
 
 
     /**
-     * 获取能满足主持会议的最近一条用户
+     * Get the latest user who can host the meeting
      *
      * @return
      */
@@ -90,7 +90,7 @@ public interface UserDao {
 
 
     /**
-     * 将指定区间段的用户跳过状态修改
+     * User skip state modification for the specified interval segment
      *
      * @return
      */
@@ -99,7 +99,7 @@ public interface UserDao {
 
 
     /**
-     * 获取能满足主持会议的最近一条用户
+     * Get the latest user who can host the meeting
      *
      * @return
      */
@@ -108,7 +108,7 @@ public interface UserDao {
 
 
     /**
-     * 根据用户编号获取当前用户信息
+     * Get current user information based on user number
      *
      * @return
      */
@@ -117,7 +117,7 @@ public interface UserDao {
 
 
     /**
-     * 获取能第一条不能满足主次会议的人员信息
+     * Obtain the information of the first person who cannot meet the main meeting
      *
      * @return
      */

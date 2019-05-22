@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.ThreadMode
  *    author : desperado
  *    e-mail : foreverxiongtao@sina.com
  *    date   : 2019/4/25 下午11:14
- *    desc   :主页面
+ *    desc   :main fragment
  *    version: 1.0
  */
 class MainFragment : BaseMVPCompatFragment<MeetingNoticePresenter, MeetingNoticeModel>(),

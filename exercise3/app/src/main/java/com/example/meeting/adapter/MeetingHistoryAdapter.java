@@ -13,7 +13,7 @@ import com.example.meeting.model.entity.User;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午4:13
- * desc   : 历史记录数据源
+ * desc   : meeting history datasource
  * version: 1.0
  */
 public class MeetingHistoryAdapter extends BaseCompatAdapter<MeetingHistory, BaseViewHolder> {

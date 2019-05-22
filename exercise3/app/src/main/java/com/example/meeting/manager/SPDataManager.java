@@ -8,7 +8,7 @@ import java.util.Map;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/25 下午5:23
- * desc   :  本地数据管理工具
+ * desc   :  local data sp manager
  * version: 1.0
  */
 
@@ -43,7 +43,7 @@ public class SPDataManager {
 
 
     /***
-     * 保存最近主持会议人员的id
+     * Save the id of the person who recently hosted the meeting
      * @param userId
      */
     public static void saveLastMeetingHostId(int userId) {
@@ -51,7 +51,7 @@ public class SPDataManager {
     }
 
     /***
-     * 获取上一个主持会议人员的id
+     * Get the id of the last chairperson
      * @return
      */
     public static int getLastMeetingHostId() {
@@ -60,7 +60,7 @@ public class SPDataManager {
 
 
     /***
-     * 保存最近一个创建人员的id
+     * Save the id of the most recent creator
      * @param userId
      */
     public static void saveNewestUserId(int userId) {
@@ -68,7 +68,7 @@ public class SPDataManager {
     }
 
     /***
-     * 获取最近一个创建人员的id
+     * Get the id of the most recent creator
      * @return
      */
     public static int getNewestUserId() {
@@ -77,7 +77,7 @@ public class SPDataManager {
 
 
     /***
-     * 保存最近一个创建会议的日期
+     * Save the date of the most recent meeting creation
      * @param timestamp
      */
     public static void saveNewestMeetingDate(long timestamp) {
@@ -85,7 +85,7 @@ public class SPDataManager {
     }
 
     /***
-     * 获取最近一个创建会议的日期
+     * Get the date of the most recent meeting creation
      * @return
      */
     public static long getNewestMeetingDate() {

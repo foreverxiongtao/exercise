@@ -6,7 +6,7 @@ import com.example.meeting.R;
  *    author : desperado
  *    e-mail : foreverxiongtao@sina.com
  *    date   : 2019/4/27 上午12:07
- *    desc   : 加载更多loading
+ *    desc   : loading more view
  *    version: 1.0
  */
 

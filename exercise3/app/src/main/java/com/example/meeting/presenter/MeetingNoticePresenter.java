@@ -15,7 +15,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午11:36
- * desc   : 会议提醒呈现层
+ * desc   : meeting notice presenter
  * version: 1.0
  */
 public class MeetingNoticePresenter extends AbMeetingNoticeContract.AbMeetingNoticePresenter {
@@ -37,53 +37,53 @@ public class MeetingNoticePresenter extends AbMeetingNoticeContract.AbMeetingNot
 
     @Override
     public void getYestodayAndTodayInfo() {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
-        mRxManager.register(mIModel.getYestodayAndTodayInfo().subscribe(new Consumer<List<MeetingHistory>>() {
+        mRxManager.register(mModel.getYestodayAndTodayInfo().subscribe(new Consumer<List<MeetingHistory>>() {
             @Override
             public void accept(List<MeetingHistory> list) throws Exception {
                 if (list != null && !list.isEmpty()) {
-                    mIView.getYesterdayAndTodayMeeting(list);
+                    mView.getYesterdayAndTodayMeeting(list);
                 } else {
-                    mIView.getYesterdayAndTodayMeetinFaiure();
+                    mView.getYesterdayAndTodayMeetinFaiure();
                 }
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mIView.getYesterdayAndTodayMeetinFaiure();
+                mView.getYesterdayAndTodayMeetinFaiure();
             }
         }, new Action() {
             @Override
             public void run() throws Exception {
-                mIView.getYesterdayAndTodayMeetinFaiure();
-                LogUtils.d("*******************");
+                mView.getYesterdayAndTodayMeetinFaiure();
+                LogUtils.d("getYestodayAndTodayInfo failure");
             }
         }));
     }
 
     @Override
     public void getTomorrowMeetingInfo(int lastMeetingHostId) {
-        if (mIModel == null || mIView == null) {
+        if (mModel == null || mView == null) {
             return;
         }
 
-        mRxManager.register(mIModel.getTomorrowMeetingInfo(lastMeetingHostId).subscribe(new Consumer<User>() {
+        mRxManager.register(mModel.getTomorrowMeetingInfo(lastMeetingHostId).subscribe(new Consumer<User>() {
             @Override
             public void accept(User user) throws Exception {
-                mIView.getTomorrowMeeting(user);
+                mView.getTomorrowMeeting(user);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mIView.getTomorrowMeetingFailure();
+                mView.getTomorrowMeetingFailure();
             }
         }, new Action() {
             @Override
             public void run() throws Exception {
-                mIView.getTomorrowMeetingFailure();
-                LogUtils.d("*******************");
+                mView.getTomorrowMeetingFailure();
+                LogUtils.d("getTomorrowMeetingInfo failure");
             }
         }));
     }

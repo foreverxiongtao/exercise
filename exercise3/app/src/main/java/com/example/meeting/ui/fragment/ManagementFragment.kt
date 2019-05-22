@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.ThreadMode
  *    author : desperado
  *    e-mail : foreverxiongtao@sina.com
  *    date   : 2019/4/25 下午11:13
- *    desc   :人员管理页面
+ *    desc   :user management fragment
  *    version: 1.0
  */
 class ManagementFragment : BaseCompatFragment(), View.OnClickListener {

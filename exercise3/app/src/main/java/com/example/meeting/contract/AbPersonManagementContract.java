@@ -13,7 +13,7 @@ import java.util.List;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/26 下午12:28
- * desc   :人员新增通信层
+ * desc   :person management contract
  * version: 1.0
  */
 public interface AbPersonManagementContract {
@@ -52,9 +52,6 @@ public interface AbPersonManagementContract {
 
         void moreUserListFailure(String message);
 
-        /**
-         * 显示没有更多数据
-         */
         void showNoMoreData();
 
         void getUserListrEmpty();

@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/27 下午1:20
- * desc   :会议历史记录
+ * desc   : meeting history entity
  * version: 1.0
  */
 @Entity(tableName = "t_meeting_history", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "uid", childColumns = "u_id"))
