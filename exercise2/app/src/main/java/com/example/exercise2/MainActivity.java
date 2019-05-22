@@ -72,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /***
-     * 初始化下载服务
+     * init download task
      */
     private void initDownloadTask() {
         Intent intent = new Intent(this, MyJobService.class);
-        intent.putExtra(KEY_MESSENGER, new Messenger(new MyHandler(this))); //传递messenger到service
+        intent.putExtra(KEY_MESSENGER, new Messenger(new MyHandler(this))); //Pass messenger to service
         startService(intent);
     }
 
     /***
-     * 开始下载
+     * start download
      * @param view
      */
     public void startDownloadTask(View view) {
@@ -90,19 +90,20 @@ public class MainActivity extends AppCompatActivity {
                 mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
             }
             JobInfo.Builder builder = new JobInfo.Builder(mJobId, new ComponentName(this, MyJobService.class));
-//            builder.setPeriodic(TIME_PERIOD);  //设置任务每隔intervalMillis运行一次
-//            builder.setOverrideDeadline(TIME_DELEADLINE);//这个方法让你可以设置任务最晚的延迟时间。如果到了规定的时间时其他条件还未满足，你的任务也会被启动。与setMinimumLatency(long time)一样，这个方法也会与setPeriodic(long time)，同时调用这两个方法会引发异常
-//            builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);  //这个方法让你这个任务只有在满足指定的网络条件时才会被执行,
-//            builder.setRequiresCharging(true);   //这个方法告诉你的应用，只有当设备在充电时这个任务才会被执行
-//            builder.setRequiresDeviceIdle(true); //这个方法告诉你的任务只有当用户没有在使用该设备且有一段时间没有使用时才会启动该任务
-//            builder.setPersisted(true);//这个方法告诉系统当你的设备重启之后你的任务是否还要继续执行
+//            builder.setPeriodic(TIME_PERIOD);  //Set the task to run every intervalMillis
+//            builder.setOverrideDeadline(TIME_DELEADLINE);//This method allows you to set the latest delay time for the task.。
+// If other conditions are not met when the time is up, your task will be activated.。
+//            builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);  //This method allows you to perform this task only if it meets the specified network conditions.,
+//            builder.setRequiresCharging(true);   //This method tells your application that this task will only be executed when the device is charging.
+//            builder.setRequiresDeviceIdle(true); //This method tells you that the task will only be started if the user is not using the device and has not used it for a while.
+//            builder.setPersisted(true);//This method tells the system whether your task will continue to execute after your device restarts.
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                builder.setMinimumLatency(TIME_PERIOD); //执行的最小延迟时间
-                builder.setOverrideDeadline(TIME_PERIOD);  //执行的最长延时时间
-//                builder.setBackoffCriteria(TIME_PERIOD, JobInfo.BACKOFF_POLICY_LINEAR);//线性重试方案
+//                builder.setMinimumLatency(TIME_PERIOD); //Minimum delay time for execution
+                builder.setOverrideDeadline(TIME_PERIOD);  //Maximum delay time to execute
+//                builder.setBackoffCriteria(TIME_PERIOD, JobInfo.BACKOFF_POLICY_LINEAR);//Linear retry
             } else {
-                builder.setOverrideDeadline(TIME_PERIOD);  //执行的最长延时时间
+                builder.setOverrideDeadline(TIME_PERIOD);  //Maximum delay time to execute
 //                builder.setPeriodic(JobInfo.DEFAULT_INITIAL_BACKOFF_MILLIS);
             }
             JobInfo jobInfo = builder.build();
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * 取消调度任务
+     * cancel jobScheduler
      *
      * @param view
      */

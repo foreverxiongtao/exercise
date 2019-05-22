@@ -15,7 +15,7 @@ import android.util.Log;
  * author : desperado
  * e-mail : foreverxiongtao@sina.com
  * date   : 2019/4/25 下午1:19
- * desc   :自定义任务调度服务
+ * desc   :custom job service
  * version: 1.0
  */
 public class MyJobService extends JobService {
@@ -33,15 +33,15 @@ public class MyJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        //返回false，表示无耗时操作，任务已经执行完毕。
-        // 返回true，表示可能执行耗时操作，需要开发者手动去调用jobFinished(JobParameters params, boolean needsRescheduled)来通知系统。
+        //return false，Indicates that there is no time-consuming operation and the task has been executed.。
+        //return true，Indicates that it is possible to perform time-consuming operations, which requires the developer to manually call jobFinished(JobParameters params, boolean needsRescheduled)
         new DownloadAsyncTask(mMessenger, params).execute();
         return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        // 返回false来销毁这个工作
+        // Return false to destroy this job
         return false;
     }
 
@@ -57,7 +57,7 @@ public class MyJobService extends JobService {
         }
 
         private void sendMessage() {
-            SystemClock.sleep(TIME_DELAY);  //模拟耗时操作
+            SystemClock.sleep(TIME_DELAY);  //Simulated time-consuming operation
             if (mMessenger == null) {
                 Log.d(TAG, "Service is bound, not started. There's no callback to send a message to.");
                 return;
@@ -79,7 +79,7 @@ public class MyJobService extends JobService {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            //eedsRescheduled参数是告诉系统这个任务如果由于某些原因导致执行失败是否需要重新调度执行，true需要重新调度执行，false不需要
+            //Tell the system that if the task fails for some reason, it needs to re-schedule execution, true needs to re-schedule execution, false does not need
             jobFinished(mJobParams, true);
         }
     }
